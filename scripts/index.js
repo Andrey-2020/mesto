@@ -1,9 +1,14 @@
 let openButton = document.querySelector(".profile__button_edit");
 let popup = document.querySelector(".popup");
 let closeButton = popup.querySelector(".popup_close");
+let like = document.querySelector(".place__like");
 let togglePopup = () => {
     popup.classList.toggle("popup_opened")
 }
+let  toggleLike = () => {
+    like.classList.toggle("place__like_active")
+}
+like.addEventListener("click", toggleLike)
 openButton.addEventListener("click", togglePopup)
 closeButton.addEventListener("click", togglePopup)
 
@@ -12,6 +17,7 @@ popup.addEventListener("click", () => {
         togglePopup()
     }
 })
+
 // Находим форму в DOM
 let formElement = document.querySelector(".popup__container")
 

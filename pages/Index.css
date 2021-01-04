@@ -55,6 +55,16 @@
 .place__like {
     height: 19px;
     width: 22px;
+    cursor: pointer;
+    transition: opacity 1s ease;
+    background: white;
+}
+
+.place__like:hover {
+    opacity: 0.5;
+}
+.place__like_active{
+    background: #000000;
 }
 
 .place__title {
@@ -65,7 +75,17 @@
     font-style: normal;
     font-weight: 900;
     font-size: 24px;
-    line-height: 29px;    
+    line-height: 29px;
     margin: 0;
     color: #000000;
+}
+
+.footer__author {
+    margin: 67px auto 60px 200px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    color: #545454;
 }
