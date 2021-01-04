@@ -1,14 +1,17 @@
 let openButton = document.querySelector(".profile__button_edit");
 let popup = document.querySelector(".popup");
 let closeButton = popup.querySelector(".popup_close");
-let like = document.querySelector(".place__like");
+let Likes = document.querySelectorAll(".place__like");
+for (let i = 0; i <= 5; i += 1) {
+    let toggleLike = () => {
+        Likes[i].classList.toggle("place__like_active")
+    }
+    Likes[i].addEventListener("click", toggleLike)
+}
+
 let togglePopup = () => {
     popup.classList.toggle("popup_opened")
 }
-let  toggleLike = () => {
-    like.classList.toggle("place__like_active")
-}
-like.addEventListener("click", toggleLike)
 openButton.addEventListener("click", togglePopup)
 closeButton.addEventListener("click", togglePopup)
 
@@ -31,8 +34,8 @@ function handleFormSubmit(evt) {
     let paragraph = document.querySelector('.profile__autor');
     let paragraphtwo = document.querySelector('.profile__profession');
 
-paragraph.textContent = inputs[0].value; // можно перезаписать содержимое 
-paragraphtwo.textContent = inputs[1].value
+    paragraph.textContent = inputs[0].value; // можно перезаписать содержимое 
+    paragraphtwo.textContent = inputs[1].value
     // Получите значение полей из свойства value
 
     // Выберите элементы, куда должны быть вставлены значения полей

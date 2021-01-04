@@ -24,20 +24,33 @@
 .places {
     margin: 47px auto 0 auto;
     display: grid;
-    grid-template-columns: repeat(3, 282px);
-    grid-template-rows: repeat(2, 362px);
+    grid-template-columns: repeat(auto-fit, 282px);
     gap: 20px 17px;
-    width: 880px;
+    max-width: 880px;
 }
-
+@media screen and (max-width: 880px) {
+    .places {
+        padding: 0 calc((100% - 282px - 282px - 17px) / 2) 0 calc((100% - 282px - 282px - 17px) / 2);
+        width: 88,125%
+    }
+}
+@media screen and (max-width: 580px) {
+    .places {
+        padding: 0 calc((100% - 282px ) / 2) 0 calc((100% - 282px) / 2);
+    }
+}
 .place {
-    height: 361px;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     background: #FFFFFF;
     border-radius: 10px;
 }
 
 .place__image {
+    background-position: center;
+    background-size: cover;
     width: 282px;
     height: 282px;
     border-radius: 10px 10px 0px 0px;
@@ -45,29 +58,33 @@
 
 .place__info {
     height: 23px;
+    width: 246px;
     margin: 25px 15px 31px 21px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: baseline;
 }
 
 .place__like {
+ margin-right: 5px;
+    background-size: cover;
+    background-image: url(../images/Heart.jpg);
     height: 19px;
     width: 22px;
     cursor: pointer;
     transition: opacity 1s ease;
-    background: white;
 }
 
 .place__like:hover {
     opacity: 0.5;
 }
 .place__like_active{
-    background: #000000;
+    background-image: url(../images/Heart_active.jpg);
 }
 
 .place__title {
+    width: 195px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
