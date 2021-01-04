@@ -1,6 +1,6 @@
 let openButton = document.querySelector(".profile__button_edit");
-let popup = document.querySelector(".popup");
-let closeButton = popup.querySelector(".popup_close");
+let overlay = document.querySelector(".overlay");
+let closeButton = overlay.querySelector(".popup_close");
 let Likes = document.querySelectorAll(".place__like");
 for (let i = 0; i <= 5; i += 1) {
     let toggleLike = () => {
@@ -10,12 +10,12 @@ for (let i = 0; i <= 5; i += 1) {
 }
 
 let togglePopup = () => {
-    popup.classList.toggle("popup_opened")
+    overlay.classList.toggle("popup_opened")
 }
 openButton.addEventListener("click", togglePopup)
 closeButton.addEventListener("click", togglePopup)
 
-popup.addEventListener("click", () => {
+overlay.addEventListener("click", () => {
     if (event.target === event.currentTarget) {
         togglePopup()
     }
