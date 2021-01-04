@@ -3,3 +3,69 @@
 @import url(../blocks/root/root.css);
 @import url(../blocks/header/header.css);
 @import url(../blocks/logo/logo.css);
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__content/profile__content.css);
+@import url(../blocks/avatar/avatar.css);
+@import url(../blocks/profile/__text/profile__text.css);
+@import url(../blocks/profile/__autor/profile__autor.css);
+@import url(../blocks/profile/__profession/profile__profession.css);
+@import url(../blocks/profile/__info/profile__info.css);
+@import url(../blocks/profile/__button/_edit/profile__button_edit.css);
+@import url(../blocks/profile/__button/_add/profile__button_add.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/_close/popup_close.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/form/__heading/form__heading.css);
+@import url(../blocks/form/__input-container/form__input-container.css);
+@import url(../blocks/form/__item/form__item.css);
+@import url(../blocks/form/__button/form__button.css);
+.places {
+    margin: 47px auto 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 282px);
+    grid-template-rows: repeat(2, 362px);
+    gap: 20px 17px;
+    width: 880px;
+}
+
+.place {
+    height: 361px;
+    display: block;
+    background: #FFFFFF;
+    border-radius: 10px;
+}
+
+.place__image {
+    width: 282px;
+    height: 282px;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.place__info {
+    height: 23px;
+    margin: 25px 15px 31px 21px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.place__like {
+    height: 19px;
+    width: 22px;
+}
+
+.place__title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;    
+    margin: 0;
+    color: #000000;
+}

@@ -8,19 +8,88 @@
     <link rel="stylesheet" href="./pages/Index.css">
     <title>Mesto</title>
 </head>
+
 <body>
     <div class="root">
         <header class="header">
-            <img class="logo" src="./images/logo.png" alt="Логотип">
-
+            <img class="logo" src="./images/logo.jpg" alt="Логотип">
         </header>
-        <main class="content">
-            <section class="">
+        <main>
+            <section class="profile">
+                <div class="profile__content">
+                    <img class="Avatar" src="./images/Avatar.jpg" alt="Аватар">
+                    <div class="profile__info">
+                        <div class="profile__text">
+                            <h2 class="profile__autor">Жак-Ив Кусто</h2>
+                            <button class="profile__button_edit"></button>
+                        </div>
+                        <p class="profile__profession">Исследователь океана</p>
+                    </div>
+                </div>
+                <button class="profile__button_add"></button>
+            </section>
+            <section class="places">
+                <div class="place">
+                    <img class="place__image" alt =" Место" src ="./images/Karachayevsk.jpg">
+                    <div class="place__info">
+                        <p class="place__title">Карачаевск</p>
+                        <img  class="place__like" alt ="Понравилось" src ="./images/Heart.svg">
+                    </div>
+                </div>
+                <div class="place">
+                    <img class="place__image" alt =" Место" src ="./images/MountElbrus.jpg">
+                    <div class="place__info">
+                        <p class="place__title">Гора Эльбрус</p>
+                        <img  class="place__like" alt ="Понравилось" src ="./images/Heart.svg">
+                    </div>
+                </div>
+                <div class="place">
+                    <img class="place__image" alt =" Место" src ="./images/Dombay.jpg">
+                    <div class="place__info">
+                        <p class="place__title">Домбай</p>
+                        <img  class="place__like" alt ="Понравилось" src ="./images/Heart.svg">
+                    </div>
+                </div>
+                <div class="place">
+                    <img class="place__image" alt =" Место" src ="./images/MountElbrus.jpg">
+                    <div class="place__info">
+                        <p class="place__title">Гора Эльбрус</p>
+                        <img  class="place__like" alt ="Понравилось" src ="./images/Heart.svg">
+                    </div>
+                </div>
+                <div class="place">
+                    <img class="place__image" alt =" Место" src ="./images/Dombay.jpg">
+                    <div class="place__info">
+                        <p class="place__title">Домбай</p>
+                        <img  class="place__like" alt ="Понравилось" src ="./images/Heart.svg">
+                    </div>
+                </div>
+                <div class="place">
+                    <img class="place__image" alt =" Место" src ="./images/Karachayevsk.jpg">
+                    <div class="place__info">
+                        <p class="place__title">Карачаево-Черкессия</p>
+                        <img  class="place__like" alt ="Понравилось" src ="./images/Heart.svg">
+                    </div>
+                </div>
             </section>
         </main>
         <footer class="footer">
-            
         </footer>
-        <script src="./script.js"></script>
+        <section class="popup">
+            <form class="popup__container">
+                <h2 class ="form__heading">Редактировать профиль</h2>
+                <div class="form">
+                    <fieldset class="form__input-container">
+                        <input class="form__item"  type="text" name="firstname" value="Жак-Ив Кусто" required>
+                        <input class="form__item"  type="text" name="about" value="Исследователь океана" required>
+                    </fieldset>
+                    <button class="form__button" type="submit">Сохранить</button>
+                    <span class="popup_close"></span>
+                </div>
+            </form>
+        </section>
+    </div>
+    <script src="./scripts/index.js"></script>
 </body>
+
 </html>
