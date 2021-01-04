@@ -5,7 +5,6 @@
     right: -40px;
     top: -40px;
     background: #FFFFFF;
-    transform: rotate(0deg);
     background-image: url(../../../images/CloseIcon.svg);
     background-size: cover;
     cursor: pointer;
@@ -14,4 +13,11 @@
 
 .popup_close:hover {
     opacity: 0.6;
+}
+
+@media screen and (min-width: 320px) and (max-width: 880px) {
+    .popup_close {
+        right: 0;
+        top: -53.62px;
+    }
 }

@@ -1,0 +1,13 @@
+.place__like {
+    margin-right: 5px;
+    background-size: cover;
+    background-image: url(../../../images/Heart.jpg);
+    height: 19px;
+    width: 22px;
+    cursor: pointer;
+    transition: opacity 1s ease;
+}
+
+.place__like:hover {
+    opacity: 0.5;
+}

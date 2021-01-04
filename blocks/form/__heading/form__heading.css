@@ -10,3 +10,11 @@
     color: #000000;
     margin: 34px auto 0 auto;
 }
+
+@media screen and (min-width: 320px) and (max-width: 880px) {
+    .form__heading {
+        font-size: 18px;
+        line-height: 22px;
+        width: 238px;
+    }
+}
