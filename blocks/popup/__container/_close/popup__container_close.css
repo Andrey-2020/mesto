@@ -1,22 +1,26 @@
-.overlay_close {
+.popup__container_close {
+    outline: none;
+    padding: 0;
+    border: none;
     position: absolute;
     height: 40px;
     width: 40px;
     right: -40px;
     top: -40px;
-    background: #FFFFFF;
-    background-image: url(../../../images/CloseIcon.svg);
+    background-color: rgba(0, 0, 0, 0.5);
+    background-image: url(../../../../images/CloseIcon.svg);
     background-size: cover;
     cursor: pointer;
     transition: opacity 1s ease;
 }
 
-.overlay_close:hover {
+.popup__container_close:hover {
     opacity: 0.6;
+    outline: none;
 }
 
 @media screen and (min-width: 320px) and (max-width: 880px) {
-    .overlay_close {
+    .popup__container_close {
         right: 0;
         top: -53.62px;
     }

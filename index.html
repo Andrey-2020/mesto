@@ -5,88 +5,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Андрей">
-    <link rel="stylesheet" href="./pages/Index.css">
+    <link rel="stylesheet" href="./pages/index.css">
     <title>Mesto</title>
 </head>
 
 <body class="root">
     <header class="header">
-        <img class="logo" src="./images/logo.jpg" alt="Логотип">
+        <img class="logo" src="./images/logo.svg" alt="Логотип">
     </header>
     <main>
         <section class="profile">
             <div class="profile__content">
-                <div class="avatar"></div>
+                <div class="profile__avatar"></div>
                 <div class="profile__info">
                     <div class="profile__text">
                         <h1 class="profile__autor">Жак-Ив Кусто</h1>
-                        <button class="profile__button profile__button_edit"></button>
+                        <button class="profile__button profile__button_edit" type="button" aria-label="edit"></button>
                     </div>
                     <p class="profile__profession">Исследователь океана</p>
                 </div>
             </div>
-            <button class="profile__button profile__button_add"></button>
+                <button class="profile__button profile__button_add" type="button" aria-label="add"></button>
+
         </section>
-        <section class="places">
-            <div class="place">
-                <img class="place__image" alt=" Место" src="./images/Karachayevsk.jpg">
-                <div class="place__info">
-                    <p class="place__title">Карачаевск</p>
-                    <div class="place__like"></div>
-                </div>
-            </div>
-            <div class="place">
-                <img class="place__image" alt=" Место" src="./images/MountElbrus.jpg">
-                <div class="place__info">
-                    <p class="place__title">Гора Эльбрус</p>
-                    <div class="place__like"></div>
-                </div>
-            </div>
-            <div class="place">
-                <img class="place__image" alt=" Место" src="./images/Dombay.jpg">
-                <div class="place__info">
-                    <p class="place__title">Домбай</p>
-                    <div class="place__like"></div>
-                </div>
-            </div>
-            <div class="place">
-                <img class="place__image" alt=" Место" src="./images/MountElbrus.jpg">
-                <div class="place__info">
-                    <p class="place__title">Гора Эльбрус</p>
-                    <div class="place__like"></div>
-                </div>
-            </div>
-            <div class="place">
-                <img class="place__image" alt=" Место" src="./images/Dombay.jpg">
-                <div class="place__info">
-                    <p class="place__title">Домбай</p>
-                    <div class="place__like"></div>
-                </div>
-            </div>
-            <div class="place">
-                <img class="place__image" alt=" Место" src="./images/Karachayevsk.jpg">
-                <div class="place__info">
-                    <h2 class="place__title">Карачаево-Черкессия</h2>
-                    <div class="place__like"></div>
-                </div>
-            </div>
+        <section>
+            <ul class="places">
+                <li class="place">
+                    <img class="place__image" alt=" Карачаевск" src="./images/Karachayevsk.jpg">
+                    <div class="place__info">
+                        <h2 class="place__title">Карачаевск</h2>
+                        <button class="place__like" type="button" aria-label="like"></button>
+                    </div>
+                </li>
+                <li class="place">
+                    <img class="place__image" alt=" Гора Эльбрус" src="./images/MountElbrus.jpg">
+                    <div class="place__info">
+                        <h2 class="place__title">Гора Эльбрус</h2>
+                        <button class="place__like" type="button" aria-label="like"></button>
+                    </div>
+                </li>
+                <li class="place">
+                    <img class="place__image" alt=" Домбай" src="./images/Dombay.jpg">
+                    <div class="place__info">
+                        <h2 class="place__title">Домбай</h2>
+                        <button class="place__like" type="button" aria-label="like"></button>
+                    </div>
+                </li>
+                <li class="place">
+                    <img class="place__image" alt=" Гора Эльбрус" src="./images/MountElbrus.jpg">
+                    <div class="place__info">
+                        <h2 class="place__title">Гора Эльбрус</h2>
+                        <button class="place__like" type="button" aria-label="like"></button>
+                    </div>
+                </li>
+                <li class="place">
+                    <img class="place__image" alt=" Домбай" src="./images/Dombay.jpg">
+                    <div class="place__info">
+                        <h2 class="place__title">Домбай</h2>
+                        <button class="place__like" type="button" aria-label="like"></button>
+                    </div>
+                </li>
+                <li class="place">
+                    <img class="place__image" alt=" Карачаево-Черкессия" src="./images/Karachayevsk.jpg">
+                    <div class="place__info">
+                        <h2 class="place__title">Карачаево-Черкессия</h2>
+                        <button class="place__like" type="button" aria-label="like"></button>
+                    </div>
+                </li>
+            </ul>
         </section>
     </main>
     <footer class="footer">
         <p class="footer__author">&copy; 2020 Mesto Russia</p>
     </footer>
-    <section class="popup">
-        <form class=" popup__container">
-            <div class="form">
-            <h2 class="form__heading">Редактировать профиль</h2>
+    <section class="popup popup__overlay">
+        <div class=" popup__container">
+            <h2 class="popup__heading">Редактировать профиль</h2>
+            <form class="form" name="Изменение данных профиля">
                 <fieldset class="form__input-container">
-                    <input class="form__item" type="text" name="firstname" value="Жак-Ив Кусто" required>
-                    <input class="form__item" type="text" name="about" value="Исследователь океана" required>
+                    <input class="form__item form__item_nameInput" type="text" name="firstname"
+                        placeholder="Жак-Ив Кусто" value="" required>
+                    <input class="form__item form__item_jobInput" type="text" name="about"
+                        placeholder="Исследователь океана" value="" required>
                 </fieldset>
-                <button class="form__button" type="submit">Сохранить</button>
-                <span class="overlay overlay_close"></span>
-            </div>
-        </form>
+                <button class="form__button" type="submit" aria-label="submit">Сохранить</button>
+            </form>
+            <button class="popup popup__container_close" type="submit" aria-label="close"></button>
+        </div>
     </section>
     <script src="./scripts/index.js"></script>
 </body>

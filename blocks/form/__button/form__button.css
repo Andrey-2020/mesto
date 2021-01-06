@@ -4,14 +4,15 @@
     text-align: center;
     width: 358px;
     height: 50px;
-    font-size: 14px;
+    font-size: 18px;
+    line-height: 22px;
     background: #000000;
     border-radius: 2px;
     cursor: pointer;
     color: white;
     font-family: Inter;
     border-width: 0px;
-    margin: 0 auto;
+    margin: 0 auto 37px auto;
     transition: opacity 1s ease;
 }
 
@@ -21,6 +22,9 @@
 
 @media screen and (min-width: 320px) and (max-width: 880px) {
     .form__button {
+        margin-bottom: 25px;
+        font-size: 14px;
+        line-height: 17px;
         width: 238px;
         height: 46px;
     }

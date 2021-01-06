@@ -1,21 +1,17 @@
 .profile__button_add {
-    padding: 0;
+    outline:none;
     width: 150px;
-    border: 1px solid #FFFFFF;
-    height: 50px;
-    background-image: url(../../../../images/AddButton.jpg);
-    background-position: center;
-    background-size: cover;
-    cursor: pointer;
-    transition: opacity 1s ease;
+    background-color: black;
+    background-image: url(../../../../images/AddButton2.svg);
 }
 
 .profile__button_add:hover {
     opacity: 0.6;
 }
+
 @media screen and (min-width: 320px) and (max-width: 880px) {
     .profile__button_add {
-        background-image: url(../../../../images/AddButton_mob.png);
+        background-image: url(../../../../images/AddButton_mob.svg);
         width: 282px;
     }
 }

@@ -1,0 +1,11 @@
+.profile__button_add {
+    padding: 0;
+    height: 50px;
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    border: 2px solid #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 2px;
+    transition: opacity 1s ease;
+}

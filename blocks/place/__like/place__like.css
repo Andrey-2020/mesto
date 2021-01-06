@@ -1,4 +1,6 @@
 .place__like {
+    outline: none;
+    border: 0;
     margin-right: 5px;
     background-size: cover;
     background-image: url(../../../images/Heart.jpg);
@@ -9,5 +11,6 @@
 }
 
 .place__like:hover {
+    border: 0;
     opacity: 0.5;
 }
