@@ -11,14 +11,15 @@ popup.addEventListener("click", (event) => {
         togglePopup()
     }
 })
-
 let likes = document.querySelectorAll(".place__like");
-for (let i = 0; i <= 5; i += 1) {
+
+likes.forEach(function (item) {
     let toggleLike = () => {
-        likes[i].classList.toggle("place__like_active")
+        item.classList.toggle("place__like_active")
     }
-    likes[i].addEventListener("click", toggleLike)
-}
+    item.addEventListener("click", toggleLike)
+});
+
 
 // Находим форму в DOM
 let formElement = document.querySelector(".form")// Воспользуйтесь методом querySelector()
