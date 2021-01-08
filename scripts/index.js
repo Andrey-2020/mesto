@@ -6,8 +6,8 @@ let togglePopup = () => {
 }
 openButton.addEventListener("click", togglePopup)
 closeButton.addEventListener("click", togglePopup)
-popup.addEventListener("click", (event) => {
-    if (event.target === event.currentTarget) {
+popup.addEventListener("click", (evt) => {
+    if (evt.target === evt.currentTarget) {
         togglePopup()
     }
 })
