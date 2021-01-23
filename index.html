@@ -79,18 +79,18 @@
         <p class="footer__author">&copy; 2020 Mesto Russia</p>
     </footer>
     <section class="popup overlay">
-        <div class="popup__container overlay__container">
+        <div class="popup__container">
             <h2 class="popup__heading">Редактировать профиль</h2>
-            <form class="form" name="Изменение данных профиля">
+            <form class="form" name="form-edit">
                 <fieldset class="form__input-container">
-                    <input class="form__item form__item_nameInput" type="text" name="firstname"
+                    <input class="form__item form__item_type_name-Input" type="text" name="firstname"
                         placeholder="Жак-Ив Кусто" value="" required>
-                    <input class="form__item form__item_jobInput" type="text" name="about"
+                    <input class="form__item form__item_type_job-Input" type="text" name="about"
                         placeholder="Исследователь океана" value="" required>
                 </fieldset>
                 <button class="form__button" type="submit" aria-label="submit">Сохранить</button>
             </form>
-            <button class="popup__container popup__container_close" type="submit" aria-label="close"></button>
+            <button class="popup__button popup__button_type_close" type="button" aria-label="close"></button>
         </div>
     </section>
     <script src="./scripts/index.js"></script>

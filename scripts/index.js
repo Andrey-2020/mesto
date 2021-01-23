@@ -1,10 +1,20 @@
 let popup = document.querySelector(".popup");
 let openButton = document.querySelector(".profile__button_edit");
-let closeButton = popup.querySelector(".popup__container_close");
+let closeButton = popup.querySelector(".popup__button_type_close");
 let togglePopup = () => {
     popup.classList.toggle("popup_opened")
 }
-openButton.addEventListener("click", togglePopup)
+let formElement = document.querySelector(".form")
+let profilename = document.querySelector(".profile__autor")
+let profilejob = document.querySelector(".profile__profession")
+let nameInput = formElement.querySelector(".form__item_type_name-Input")
+let jobInput = formElement.querySelector(".form__item_type_job-Input")
+openButton.addEventListener("click", function () {
+    togglePopup()
+    nameInput.value = profilename.textContent
+    jobInput.value = profilejob.textContent
+}
+)
 closeButton.addEventListener("click", togglePopup)
 popup.addEventListener("click", (evt) => {
     if (evt.target === evt.currentTarget) {
@@ -21,26 +31,20 @@ likes.forEach(function (item) {
 });
 
 
-// Находим форму в DOM
-let formElement = document.querySelector(".form")// Воспользуйтесь методом querySelector()
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
-function handleFormSubmit (evt) {
+function handleFormSubmit(evt) {
     evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-                        // Так мы можем определить свою логику отправки.
-                        // О том, как это делать, расскажем позже.
+    // Так мы можем определить свою логику отправки.
+    // О том, как это делать, расскажем позже.
 
     // Находим поля формы в DOM
-    let nameInput = formElement.querySelector(".form__item_nameInput")
-    let jobInput = formElement.querySelector(".form__item_jobInput")
     nameInput = nameInput.value
     jobInput = jobInput.value
-    let profilename = document.querySelector(".profile__autor")
-    let profilejob = document.querySelector(".profile__profession")
     profilename.textContent = nameInput
     profilejob.textContent = jobInput
-    
+
     // Получите значение полей из свойства value
 
     // Выберите элементы, куда должны быть вставлены значения полей
