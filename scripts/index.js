@@ -1,14 +1,14 @@
 let popup = document.querySelector(".popup");
 let openButton = document.querySelector(".profile__button_edit");
-let closeButton = popup.querySelector(".popup__button_type_close");
+let closeButton = popup.querySelector(".popup__button");
 let togglePopup = () => {
     popup.classList.toggle("popup_opened")
 }
 let formElement = document.querySelector(".form")
 let profilename = document.querySelector(".profile__autor")
 let profilejob = document.querySelector(".profile__profession")
-let nameInput = formElement.querySelector(".form__item_type_name-Input")
-let jobInput = formElement.querySelector(".form__item_type_job-Input")
+let nameInput = formElement.querySelector(".form__item_type_name-input")
+let jobInput = formElement.querySelector(".form__item_type_job-input")
 openButton.addEventListener("click", function () {
     togglePopup()
     nameInput.value = profilename.textContent
@@ -40,10 +40,8 @@ function handleFormSubmit(evt) {
     // О том, как это делать, расскажем позже.
 
     // Находим поля формы в DOM
-    nameInput = nameInput.value
-    jobInput = jobInput.value
-    profilename.textContent = nameInput
-    profilejob.textContent = jobInput
+    profilename.textContent = nameInput.value
+    profilejob.textContent = jobInput.value
 
     // Получите значение полей из свойства value
 
