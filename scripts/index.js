@@ -77,43 +77,52 @@ addButton.addEventListener("click", function () {
 const places = document.querySelector(".places")
 const itemTemplate = document.querySelector(".item-template").content;
 
-initialCards.reverse().forEach((item) => {
-    renderCard(item.name, item.link)
-});
 let popupImg = document.querySelector(".popup_type_image");
 let closeImgButton = popupImg.querySelector(".popup__button_type_image");
 let toggleImgPopup = () => {
     popupImg.classList.toggle("popup_opened")
 }
-function renderCard(name, link) {
-    const htmlElement = itemTemplate.querySelector('.place').cloneNode(true);
-    let photo = htmlElement.querySelector(".place__image");
-    const like = htmlElement.querySelector('.place__like')
-    like.addEventListener("click", function () {
-        like.classList.toggle("place__like_active")
-    });
-    const deleteCard = htmlElement.querySelector('.place__delete')
+
+function handleDelete(item) {
+    const deleteCard = item.querySelector('.place__delete')
     deleteCard.addEventListener("click", function () {
         const deleteItem = deleteCard.closest('.place')
         deleteItem.remove()
     });
+}
+function handleLike(item) {
+    const like = item.querySelector('.place__like')
+    like.addEventListener("click", function () {
+        like.classList.toggle("place__like_active")
+    });
+}
+function handleImgPopup(item, name, link) {
+    let photo = item.querySelector(".place__image");
     photo.addEventListener("click", function () {
         toggleImgPopup()
         popupImg.querySelector('.popup__caption').textContent = name;
         popupImg.querySelector(".popup__image").setAttribute('src', link);
         popupImg.querySelector(".popup__image").setAttribute('alt', name);
     })
-
+}
+function renderCard(name, link) {
+    const htmlElement = itemTemplate.querySelector('.place').cloneNode(true);
+    handleLike(htmlElement);
+    handleDelete(htmlElement);
+    handleImgPopup(htmlElement, name, link);
     htmlElement.querySelector('.place__title').textContent = name;
     htmlElement.querySelector(".place__image").setAttribute('src', link);
     htmlElement.querySelector(".place__image").setAttribute('alt', name);
     places.prepend(htmlElement);
-
 }
+
+initialCards.reverse().forEach((item) => {
+    renderCard(item.name, item.link)
+});
 closeImgButton.addEventListener("click", toggleImgPopup)
 
 let formAddElement = document.querySelector(".form_type_add")
-function handleFormAddSubmit(evt) {
+function handleFormAddCardSubmit(evt) {
     evt.preventDefault();
     let nameAdd = formAddElement.querySelector(".form__item_type_name");
     let link = formAddElement.querySelector(".form__item_type_link");
@@ -122,4 +131,4 @@ function handleFormAddSubmit(evt) {
 
 }
 
-formAddElement.addEventListener('submit', handleFormAddSubmit);
+formAddElement.addEventListener('submit', handleFormAddCardSubmit);
