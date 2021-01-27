@@ -18,49 +18,23 @@
 @import url(../blocks/popup/__heading/popup__heading.css);
 @import url(../blocks/popup/__button/popup__button.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__caption/popup__caption.css);
+@import url(../blocks/popup/__image/popup__image.css);
+@import url(../blocks/popup/__image-caption/popup__image-caption.css);
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/__input-container/form__input-container.css);
 @import url(../blocks/form/__item/form__item.css);
 @import url(../blocks/form/__button/form__button.css);
 @import url(../blocks/places/places.css);
 @import url(../blocks/place/place.css);
+@import url(../blocks/place/__delete/place__delete.css);
 @import url(../blocks/place/__image/place__image.css);
 @import url(../blocks/place/__info/place__info.css);
 @import url(../blocks/place/__like/place__like.css);
 @import url(../blocks/place/__like/_active/place__like_active.css);
 @import url(../blocks/place/__title/place__title.css);
 @import url(../blocks/footer/__author/footer__author.css);
-.place__delete {
-    cursor: pointer;
-    position: absolute;
-    top: 18px;
-    right: 15px;
-    Width: 18px;
-    Height: 19.3px;
-    transition: opacity 1s ease;
-}
 
-.place__delete:hover {
-    opacity: 0.5;
-}
-.popup__image-caption{
-    margin:0;
-    position: relative;
-}
-.popup__image {
-    max-width: 75vw;
-    max-height: 75vh;
 
-}
-.popup-image_opened {
-    display: flex;
-}
-.popup__caption {
-    font-family: "Inter", "Arial ", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 15px;
-    color: #FFFFFF;
-    margin:10px 0 0 0;
-}
+
+
