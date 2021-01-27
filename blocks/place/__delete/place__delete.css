@@ -3,10 +3,11 @@
     position: absolute;
     top: 18px;
     right: 15px;
-    Width: 18px;
-    Height: 19.3px;
+    width: 18px;
+    height: 19.3px;
     transition: opacity 1s ease;
 }
+
 .place__delete:hover {
     opacity: 0.5;
 }
