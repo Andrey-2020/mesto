@@ -77,7 +77,7 @@ addButton.addEventListener("click", function () {
 const places = document.querySelector(".places")
 const itemTemplate = document.querySelector(".item-template").content;
 
-initialCards.forEach((item) => {
+initialCards.reverse().forEach((item) => {
     renderCard(item.name, item.link)
 });
 let popupImg = document.querySelector(".popup_type_image");
