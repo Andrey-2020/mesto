@@ -30,3 +30,37 @@
 @import url(../blocks/place/__like/_active/place__like_active.css);
 @import url(../blocks/place/__title/place__title.css);
 @import url(../blocks/footer/__author/footer__author.css);
+.place__delete {
+    cursor: pointer;
+    position: absolute;
+    top: 18px;
+    right: 15px;
+    Width: 18px;
+    Height: 19.3px;
+    transition: opacity 1s ease;
+}
+
+.place__delete:hover {
+    opacity: 0.5;
+}
+.popup__image-caption{
+    margin:0;
+    position: relative;
+}
+.popup__image {
+    max-width: 75vw;
+    max-height: 75vh;
+
+}
+.popup-image_opened {
+    display: flex;
+}
+.popup__caption {
+    font-family: "Inter", "Arial ", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    color: #FFFFFF;
+    margin:10px 0 0 0;
+}
