@@ -1,134 +1,143 @@
 const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
+  {
+    name: "Архыз",
+    link:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
+  },
+  {
+    name: "Челябинская область",
+    link:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
+  },
+  {
+    name: "Иваново",
+    link:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
+  },
+  {
+    name: "Камчатка",
+    link:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
+  },
+  {
+    name: "Холмогорский район",
+    link:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
+  },
+  {
+    name: "Байкал",
+    link:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+  },
 ];
 
-
-let popup = document.querySelector(".popup_type_edit");
-let openButton = document.querySelector(".profile__button_edit");
-let closeButton = popup.querySelector(".popup__button");
-let togglePopup = () => {
-    popup.classList.toggle("popup_opened")
+const popup = document.querySelector(".popup_type_edit");
+const openButton = document.querySelector(".profile__button_edit");
+const closeButton = popup.querySelector(".popup__button");
+function openModal(item) {
+  item.classList.add("popup_opened");
+}
+function closeModal(item) {
+  item.classList.remove("popup_opened");
 }
 
-let formElement = document.querySelector(".form_type_edit")
-let profilename = document.querySelector(".profile__autor")
-let profilejob = document.querySelector(".profile__profession")
-let nameInput = formElement.querySelector(".form__item_type_name-input")
-let jobInput = formElement.querySelector(".form__item_type_job-input")
+const formElement = document.querySelector(".form_type_edit");
+const profilename = document.querySelector(".profile__autor");
+const profilejob = document.querySelector(".profile__profession");
+const nameInput = formElement.querySelector(".form__item_type_name-input");
+const jobInput = formElement.querySelector(".form__item_type_job-input");
 openButton.addEventListener("click", function () {
-    togglePopup()
-    nameInput.value = profilename.textContent
-    jobInput.value = profilejob.textContent
-})
+  openModal(popup);
+  nameInput.value = profilename.textContent;
+  jobInput.value = profilejob.textContent;
+});
 
-closeButton.addEventListener("click", togglePopup)
-popup.addEventListener("click", (evt) => {
+closeButton.addEventListener("click", function () {
+  closeModal(popup);
+});
+function closeOverlayModal(item) {
+  item.addEventListener("click", (evt) => {
     if (evt.target === evt.currentTarget) {
-        togglePopup()
+      closeModal(item);
     }
-})
-
+  });
+}
+closeOverlayModal(popup);
 
 function handleFormSubmit(evt) {
-    evt.preventDefault();
-    profilename.textContent = nameInput.value
-    profilejob.textContent = jobInput.value
+  evt.preventDefault();
+  profilename.textContent = nameInput.value;
+  profilejob.textContent = jobInput.value;
 
-    togglePopup()
+  closeModal(popup);
 }
 
-formElement.addEventListener('submit', handleFormSubmit);
+formElement.addEventListener("submit", handleFormSubmit);
 
-let addpopup = document.querySelector(".popup_type_add");
-let closeAddButton = addpopup.querySelector(".popup__button");
-let addButton = document.querySelector(".profile__button_add");
-let toggleAddPopup = () => {
-    addpopup.classList.toggle("popup_opened")
-}
-closeAddButton.addEventListener("click", toggleAddPopup)
+const addpopup = document.querySelector(".popup_type_add");
+const closeAddButton = addpopup.querySelector(".popup__button");
+const addButton = document.querySelector(".profile__button_add");
+closeAddButton.addEventListener("click", function () {
+  closeModal(addpopup);
+});
 addButton.addEventListener("click", function () {
-    toggleAddPopup()
-
-})
-
-const places = document.querySelector(".places")
+  openModal(addpopup);
+});
+closeOverlayModal(addpopup);
+const places = document.querySelector(".places");
 const itemTemplate = document.querySelector(".item-template").content;
 
-let popupImg = document.querySelector(".popup_type_image");
-let closeImgButton = popupImg.querySelector(".popup__button_type_image");
-let toggleImgPopup = () => {
-    popupImg.classList.toggle("popup_opened")
-}
+const popupImg = document.querySelector(".popup_type_image");
+const closeImgButton = popupImg.querySelector(".popup__button_type_image");
 
 function handleDelete(item) {
-    const deleteCard = item.querySelector('.place__delete')
-    deleteCard.addEventListener("click", function () {
-        const deleteItem = deleteCard.closest('.place')
-        deleteItem.remove()
-    });
+  const deleteCard = item.querySelector(".place__delete");
+  deleteCard.addEventListener("click", function () {
+    const deleteItem = deleteCard.closest(".place");
+    deleteItem.remove();
+  });
 }
 function handleLike(item) {
-    const like = item.querySelector('.place__like')
-    like.addEventListener("click", function () {
-        like.classList.toggle("place__like_active")
-    });
+  const like = item.querySelector(".place__like");
+  like.addEventListener("click", function () {
+    like.classList.toggle("place__like_active");
+  });
 }
 function handleImgPopup(item, name, link) {
-    let photo = item.querySelector(".place__image");
-    photo.addEventListener("click", function () {
-        toggleImgPopup()
-        popupImg.querySelector('.popup__caption').textContent = name;
-        popupImg.querySelector(".popup__image").setAttribute('src', link);
-        popupImg.querySelector(".popup__image").setAttribute('alt', name);
-    })
+  const photo = item.querySelector(".place__image");
+  photo.addEventListener("click", function () {
+    openModal(popupImg);
+    popupImg.querySelector(".popup__caption").textContent = name;
+    popupImg.querySelector(".popup__image").setAttribute("src", link);
+    popupImg.querySelector(".popup__image").setAttribute("alt", name);
+  });
 }
 function renderCard(name, link) {
-    const htmlElement = itemTemplate.querySelector('.place').cloneNode(true);
-    handleLike(htmlElement);
-    handleDelete(htmlElement);
-    handleImgPopup(htmlElement, name, link);
-    htmlElement.querySelector('.place__title').textContent = name;
-    htmlElement.querySelector(".place__image").setAttribute('src', link);
-    htmlElement.querySelector(".place__image").setAttribute('alt', name);
-    places.prepend(htmlElement);
+  const htmlElement = itemTemplate.querySelector(".place").cloneNode(true);
+  handleLike(htmlElement);
+  handleDelete(htmlElement);
+  handleImgPopup(htmlElement, name, link);
+  htmlElement.querySelector(".place__title").textContent = name;
+  htmlElement.querySelector(".place__image").setAttribute("src", link);
+  htmlElement.querySelector(".place__image").setAttribute("alt", name);
+  places.prepend(htmlElement);
 }
 
 initialCards.reverse().forEach((item) => {
-    renderCard(item.name, item.link)
+  renderCard(item.name, item.link);
 });
-closeImgButton.addEventListener("click", toggleImgPopup)
+closeImgButton.addEventListener("click", function () {
+  closeModal(popupImg);
+});
+closeOverlayModal(popupImg);
+const formAddElement = document.querySelector(".form_type_add");
+const nameAdd = formAddElement.querySelector(".form__item_type_name");
+const link = formAddElement.querySelector(".form__item_type_link");
 
-let formAddElement = document.querySelector(".form_type_add")
 function handleFormAddCardSubmit(evt) {
-    evt.preventDefault();
-    let nameAdd = formAddElement.querySelector(".form__item_type_name");
-    let link = formAddElement.querySelector(".form__item_type_link");
-    renderCard(nameAdd.value, link.value)
-    toggleAddPopup();
-
+  evt.preventDefault();
+  renderCard(nameAdd.value, link.value);
+  closeModal(addpopup);
 }
 
-formAddElement.addEventListener('submit', handleFormAddCardSubmit);
+formAddElement.addEventListener("submit", handleFormAddCardSubmit);
