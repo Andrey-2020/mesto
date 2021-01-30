@@ -44,8 +44,8 @@ function closeModal(item) {
 const formElement = document.querySelector(".form_type_edit");
 const profilename = document.querySelector(".profile__autor");
 const profilejob = document.querySelector(".profile__profession");
-const nameInput = formElement.querySelector(".form__item_type_name-input");
-const jobInput = formElement.querySelector(".form__item_type_job-input");
+const nameInput = formElement.querySelector(".form__input_type_name-input");
+const jobInput = formElement.querySelector(".form__input_type_job-input");
 openButton.addEventListener("click", function () {
   openModal(popup);
   nameInput.value = profilename.textContent;
@@ -61,9 +61,14 @@ function closeOverlayModal(item) {
       closeModal(item);
     }
   });
+  document.addEventListener("keydown", (evt) => {
+    if (evt.key === "Escape") {
+      closeModal(item);
+    }
+  })
 }
-closeOverlayModal(popup);
 
+closeOverlayModal(popup);
 function handleFormSubmit(evt) {
   evt.preventDefault();
   profilename.textContent = nameInput.value;
@@ -131,8 +136,8 @@ closeImgButton.addEventListener("click", function () {
 });
 closeOverlayModal(popupImg);
 const formAddElement = document.querySelector(".form_type_add");
-const nameAdd = formAddElement.querySelector(".form__item_type_name");
-const link = formAddElement.querySelector(".form__item_type_link");
+const nameAdd = formAddElement.querySelector(".form__input_type_name");
+const link = formAddElement.querySelector(".form__input_type_link");
 
 function handleFormAddCardSubmit(evt) {
   evt.preventDefault();

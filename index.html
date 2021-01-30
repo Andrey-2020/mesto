@@ -39,12 +39,15 @@
     <section class="popup popup_type_edit">
         <div class="popup__container popup__container_type edit">
             <h2 class="popup__heading popup__heading_type_edit">Редактировать профиль</h2>
-            <form class="form form_type_edit" name="form-edit">
+            <form class="form form_type_edit" name="form-edit" novalidate>
                 <fieldset class="form__input-container form__input-container_type_edit">
-                    <input class="form__item form__item_type_name-input" type="text" name="firstname"
-                        placeholder="Жак-Ив Кусто" value="" required>
-                    <input class="form__item form__item_type_job-input" type="text" name="about"
-                        placeholder="Исследователь океана" value="" required>
+                    <input class="form__input form__input_type_name-input" type="text" name="firstname"
+                        placeholder="Жак-Ив Кусто" value="" minlength="2" maxlength="40" required id="name-input">
+                    <span class="name-input-error form__input-error"></span>
+                    <input class="form__input form__input_type_job-input" type="text" name="about"
+                        placeholder="Исследователь океана" value=" " minlength="2" maxlength="200" id="about-input"
+                        required>
+                    <span class="about-input-error form__input-error"></span>
                 </fieldset>
                 <button class="form__button" type="submit" aria-label="submit">Сохранить</button>
             </form>
@@ -54,12 +57,14 @@
     <section class="popup popup_type_add">
         <div class="popup__container popup__container_type_add">
             <h2 class="popup__heading popup__heading_type_add">Новое место</h2>
-            <form class="form form_type_add" name="form-edit">
+            <form class="form form_type_add" name="form-edit" novalidate>
                 <fieldset class="form__input-container form__input-container_type_add">
-                    <input class="form__item form__item_type_name" type="text" name="firstname"
-                        placeholder="Название" value="" required>
-                    <input class="form__item form__item_type_link" type="text" name="about"
-                        placeholder="Ссылка на картинку" value="" required>
+                    <input class="form__input form__input_type_name" type="text" name="firstname" placeholder="Название"
+                        minlength="2" maxlength="30" id="place-input" required>
+                    <span class="place-input-error form__input-error"></span>
+                    <input class="form__input form__input_type_link" type="url" name="url"
+                        placeholder="Ссылка на картинку" value=" " id="url-input" required>
+                    <span class="url-input-error form__input-error"></span>
                 </fieldset>
                 <button class="form__button form__button_type_add" type="submit" aria-label="submit">Создать</button>
             </form>
@@ -67,11 +72,11 @@
         </div>
     </section>
     <section class="popup popup_type_image">
-            <figure class="popup__image-caption">
-                <button class="popup__button popup__button_type_image" type="button" aria-label="close"></button>
-                <img class="popup__image" src="#" alt="#">
-                <p class="popup__caption"></p>
-            </figure>
+        <figure class="popup__image-caption">
+            <button class="popup__button popup__button_type_image" type="button" aria-label="close"></button>
+            <img class="popup__image" src="#" alt="#">
+            <p class="popup__caption"></p>
+        </figure>
     </section>
 
     <template class="item-template">
@@ -85,6 +90,7 @@
         </li>
     </template>
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/validate.js"></script>
 </body>
 
 </html>
