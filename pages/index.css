@@ -24,7 +24,11 @@
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/__input-container/form__input-container.css);
 @import url(../blocks/form/__input/form__input.css);
+@import url(../blocks/form/__input/_type/form__input_type_error.css);
+@import url(../blocks/form/__input-error/form__input-error.css);
+@import url(../blocks/form/__input-error/_active/form__input-error_active.css);
 @import url(../blocks/form/__button/form__button.css);
+@import url(../blocks/form/__button/_inactive/form__button_inactive.css);
 @import url(../blocks/places/places.css);
 @import url(../blocks/place/place.css);
 @import url(../blocks/place/__delete/place__delete.css);
@@ -34,30 +38,3 @@
 @import url(../blocks/place/__like/_active/place__like_active.css);
 @import url(../blocks/place/__title/place__title.css);
 @import url(../blocks/footer/__author/footer__author.css);
-.form__input_type_error {
-  border-bottom: 1px solid #ff0000;
-}
-.form__input-error {
-  display: none;
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 15px;
-  color: #ff0000;
-}
-.form__input-error_active {
-  display: block;
-}
-.form__submit_inactive {
-  background: #ededed;
-  pointer-events: none;
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 22px;
-  text-align: center;
-
-  color: #000000;
-}
