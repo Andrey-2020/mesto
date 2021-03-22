@@ -1,70 +1,74 @@
-function showInputError(formElement, inputElement, errorMessage, parameters) {
-  const formError = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add(parameters.inputErrorClass);
-  formError.textContent = errorMessage;
-  formError.classList.add(parameters.errorClass);
+export default class FormValidator{
+  constructor(parameters, formSelector) {
+    this._parameters = parameters
+    this._formSelector = formSelector
 }
-function hideInputError(formElement, inputElement, parameters) {
+_showInputError(formElement, inputElement, errorMessage) {
   const formError = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove(parameters.inputErrorClass);
-  formError.classList.remove(parameters.errorClass);
+  inputElement.classList.add(this._parameters.inputErrorClass);
+  formError.textContent = errorMessage;
+  formError.classList.add(this._parameters.errorClass);
+}
+_hideInputError(formElement, inputElement) {
+  const formError = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove(this._parameters.inputErrorClass);
+  formError.classList.remove(this._parameters.errorClass);
   formError.textContent = " ";
 }
-function isValid(formElement, inputElement, parameters) {
+_isValid(formElement, inputElement) {
   if (!inputElement.validity.valid) {
-    showInputError(
+    this._showInputError(
       formElement,
       inputElement,
-      inputElement.validationMessage,
-      parameters
+      inputElement.validationMessage
     );
   } else {
-    hideInputError(formElement, inputElement, parameters);
+    this._hideInputError(formElement, inputElement);
   }
 }
-const hasInvalidInput = (inputList) => {
+_hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
   });
 };
-const toggleButtonState = (inputList, buttonElement, parameters) => {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(parameters.inactiveButtonClass);
+_toggleButtonState = (inputList, buttonElement) => {
+  if (this._hasInvalidInput(inputList)) {
+    buttonElement.classList.add(this._parameters.inactiveButtonClass);
   } else {
-    buttonElement.classList.remove(parameters.inactiveButtonClass);
+    buttonElement.classList.remove(this._parameters.inactiveButtonClass);
   }
 };
 //setEventListeners добавит обработчики сразу всем полям формы
-const setEventListeners = (formElement, parameters) => {
+_setEventListeners = (formElement) => {
   // Находим все поля внутри формы,
   // сделаем из них массив методом Array.from
   const InputList = Array.from(
-    formElement.querySelectorAll(parameters.inputSelector)
+    formElement.querySelectorAll(this._parameters.inputSelector)
   );
   // Найдём в текущей форме кнопку отправки
   const buttonElement = formElement.querySelector(
-    parameters.submitButtonSelector
+    this._parameters.submitButtonSelector
   );
   // Вызовем toggleButtonState, чтобы не ждать ввода данных в поля
-  toggleButtonState(InputList, buttonElement, parameters);
+  this._toggleButtonState(InputList, buttonElement);
   // Обойдём все элементы полученной коллекции
   InputList.forEach((inputElement) => {
     // каждому полю добавим обработчик события input
     inputElement.addEventListener("input", () => {
       // Внутри колбэка вызовем isValid,
       // передав ей форму и проверяемый элемент
-      isValid(formElement, inputElement, parameters);
-      toggleButtonState(InputList, buttonElement, parameters);
+      this._isValid(formElement, inputElement);
+      this._toggleButtonState(InputList, buttonElement);
     });
   });
 };
 
 //Добавление обработчиков всем формам
-function enableValidation(parameters) {
+enableValidation() {
   // Найдём все формы с указанным классом в DOM,
   // сделаем из них массив методом Array.from
   const formList = Array.from(
-    document.querySelectorAll(parameters.formSelector)
+    document.querySelectorAll(this._formSelector)
   );
 
   // Переберём полученную коллекцию
@@ -76,16 +80,7 @@ function enableValidation(parameters) {
 
     // Для каждой формы вызовем функцию setEventListeners,
     // передав ей элемент формы
-    setEventListeners(formElement, parameters);
+    this._setEventListeners(formElement);
   });
 }
-
-// Вызовем функцию
-enableValidation({
-  formSelector: ".form",
-  inputSelector: ".form__input",
-  submitButtonSelector: ".form__button",
-  inactiveButtonClass: "form__button_inactive",
-  inputErrorClass: "form__input_type_error",
-  errorClass: "form__input-error_active",
-});
+}
