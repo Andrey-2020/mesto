@@ -46,7 +46,7 @@ const addButton = document.querySelector(".profile__button_add");
 export const popupImg = document.querySelector(".popup_type_image");
 const popups = document.querySelectorAll(".popup");
 
-function openModal(popup) {
+export default function openModal(popup) {
     popup.classList.add("popup_opened");
     document.addEventListener("keydown", closeByEscape);
 }

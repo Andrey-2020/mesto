@@ -1,4 +1,5 @@
 import {places, popupImg} from './index.js'
+import  openModal from './index.js'
 export default class Card {
   constructor( name, link) {
       this._name = name;
