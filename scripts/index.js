@@ -34,7 +34,7 @@ const initialCards = [
 ];
 const popup = document.querySelector(".popup_type_edit");
 const openButton = document.querySelector(".profile__button_edit");
-export const places = document.querySelector(".places");
+const places = document.querySelector(".places");
 const formElement = document.querySelector(".form_type_edit");
 const profilename = document.querySelector(".profile__autor");
 const profilejob = document.querySelector(".profile__profession");
@@ -43,10 +43,11 @@ const jobInput = formElement.querySelector(".form__input_type_job-input");
 const addpopup = document.querySelector(".popup_type_add");
 const closeAddButton = addpopup.querySelector(".popup__button");
 const addButton = document.querySelector(".profile__button_add");
-export const popupImg = document.querySelector(".popup_type_image");
+const popupImg = document.querySelector(".popup_type_image");
 const popups = document.querySelectorAll(".popup");
-
-export default function openModal(popup) {
+const imagePopupCaption = popupImg.querySelector(".popup__caption")
+const imagePopupPicture = popupImg.querySelector(".popup__image")
+function openModal(popup) {
     popup.classList.add("popup_opened");
     document.addEventListener("keydown", closeByEscape);
 }
@@ -60,13 +61,18 @@ function closeByEscape(evt) {
         closeModal(openedPopup);
     }
 }
+ export default function handleCardClick(name, link) {
+    openModal(popupImg)
+    imagePopupPicture.src = link
+    imagePopupCaption.textContent = name
+}
 
 
 openButton.addEventListener("click", function () {
     openModal(popup);
     nameInput.value = profilename.textContent;
     jobInput.value = profilejob.textContent;
-});
+})
 
 
 popups.forEach((popup) => {
@@ -98,9 +104,12 @@ addButton.addEventListener("click", function () {
     openModal(addpopup);
 });
 
+function createCard(item, handleCardClick, template) {
+    const card = new Card(item, handleCardClick, template);
+    return card.renderCard()
+}
 initialCards.reverse().forEach((item) => {
-    const card = new Card(item.name, item.link);
-    card.renderCard()
+    places.prepend(createCard(item,  handleCardClick, ".item-template"))
 });
 
 const formAddElement = document.querySelector(".form_type_add");
@@ -109,20 +118,27 @@ const link = formAddElement.querySelector(".form__input_type_link");
 
 function handleFormAddCardSubmit(evt) {
     evt.preventDefault();
-    const card = new Card(nameAdd.value, link.value);
-    card.renderCard()
+    places.prepend(createCard({ name: nameAdd.value, src: link.value }, handleCardClick, ".item-template"))
     closeModal(addpopup);
 }
 
 formAddElement.addEventListener("submit", handleFormAddCardSubmit);
 
-const Valid = new FormValidator({
+const valid1 = new FormValidator({
     inputSelector: ".form__input",
     submitButtonSelector: ".form__button",
     inactiveButtonClass: "form__button_inactive",
     inputErrorClass: "form__input_type_error",
     errorClass: "form__input-error_active",
-}, ".form")
+}, ".form_type_edit")
+const valid2 = new FormValidator({
+    inputSelector: ".form__input",
+    submitButtonSelector: ".form__button",
+    inactiveButtonClass: "form__button_inactive",
+    inputErrorClass: "form__input_type_error",
+    errorClass: "form__input-error_active",
+}, ".form_type_add")
 // Вызовем функцию
 
-Valid.enableValidation()
+valid1.enableValidation()
+valid2.enableValidation()

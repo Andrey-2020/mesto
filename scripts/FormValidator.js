@@ -42,7 +42,7 @@ export default class FormValidator {
   _setEventListeners = (formElement) => {
     // Находим все поля внутри формы,
     // сделаем из них массив методом Array.from
-    const InputList = Array.from(
+    const inputList = Array.from(
       formElement.querySelectorAll(this._parameters.inputSelector)
     );
     // Найдём в текущей форме кнопку отправки
@@ -50,15 +50,15 @@ export default class FormValidator {
       this._parameters.submitButtonSelector
     );
     // Вызовем toggleButtonState, чтобы не ждать ввода данных в поля
-    this._toggleButtonState(InputList, buttonElement);
+    this._toggleButtonState(inputList, buttonElement);
     // Обойдём все элементы полученной коллекции
-    InputList.forEach((inputElement) => {
+    inputList.forEach((inputElement) => {
       // каждому полю добавим обработчик события input
       inputElement.addEventListener("input", () => {
         // Внутри колбэка вызовем isValid,
         // передав ей форму и проверяемый элемент
         this._isValid(formElement, inputElement);
-        this._toggleButtonState(InputList, buttonElement);
+        this._toggleButtonState(inputList, buttonElement);
       });
     });
   };
@@ -67,12 +67,8 @@ export default class FormValidator {
   enableValidation() {
     // Найдём все формы с указанным классом в DOM,
     // сделаем из них массив методом Array.from
-    const formList = Array.from(
-      document.querySelectorAll(this._formSelector)
-    );
+    const formElement =  document.querySelector(this._formSelector)
 
-    // Переберём полученную коллекцию
-    formList.forEach((formElement) => {
       formElement.addEventListener("submit", (evt) => {
         // У каждой формы отменим стандартное поведение
         evt.preventDefault();
@@ -81,6 +77,6 @@ export default class FormValidator {
       // Для каждой формы вызовем функцию setEventListeners,
       // передав ей элемент формы
       this._setEventListeners(formElement);
-    });
-  }
+
+}
 }
