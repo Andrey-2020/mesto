@@ -61,7 +61,7 @@ function closeByEscape(evt) {
         closeModal(openedPopup);
     }
 }
- export default function handleCardClick(name, link) {
+function handleCardClick(name, link) {
     openModal(popupImg)
     imagePopupPicture.src = link
     imagePopupCaption.textContent = name
@@ -109,7 +109,7 @@ function createCard(item, handleCardClick, template) {
     return card.renderCard()
 }
 initialCards.reverse().forEach((item) => {
-    places.prepend(createCard(item,  handleCardClick, ".item-template"))
+    places.prepend(createCard(item, handleCardClick, ".item-template"))
 });
 
 const formAddElement = document.querySelector(".form_type_add");
@@ -118,8 +118,12 @@ const link = formAddElement.querySelector(".form__input_type_link");
 
 function handleFormAddCardSubmit(evt) {
     evt.preventDefault();
-    places.prepend(createCard({ name: nameAdd.value, src: link.value }, handleCardClick, ".item-template"))
+    places.prepend(createCard({ name: nameAdd.value, link: link.value }, handleCardClick, ".item-template"));
     closeModal(addpopup);
+    nameAdd.value = '';
+    link.value = '';
+    valid1.enableValidation()
+    valid2.enableValidation()
 }
 
 formAddElement.addEventListener("submit", handleFormAddCardSubmit);
