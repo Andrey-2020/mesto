@@ -32,6 +32,13 @@ const initialCards = [
             "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
     },
 ];
+const parametersCard = {
+    inputSelector: ".form__input",
+    submitButtonSelector: ".form__button",
+    inactiveButtonClass: "form__button_inactive",
+    inputErrorClass: "form__input_type_error",
+    errorClass: "form__input-error_active",
+}
 const popup = document.querySelector(".popup_type_edit");
 const openButton = document.querySelector(".profile__button_edit");
 const places = document.querySelector(".places");
@@ -97,9 +104,6 @@ function handleFormSubmit(evt) {
 formElement.addEventListener("submit", handleFormSubmit);
 
 
-closeAddButton.addEventListener("click", function () {
-    closeModal(addpopup);
-});
 addButton.addEventListener("click", function () {
     openModal(addpopup);
 });
@@ -111,38 +115,24 @@ function createCard(item, handleCardClick, template) {
 initialCards.reverse().forEach((item) => {
     places.prepend(createCard(item, handleCardClick, ".item-template"))
 });
-
 const formAddElement = document.querySelector(".form_type_add");
 const nameAdd = formAddElement.querySelector(".form__input_type_name");
 const link = formAddElement.querySelector(".form__input_type_link");
-
 function handleFormAddCardSubmit(evt) {
-    evt.preventDefault();
-    places.prepend(createCard({ name: nameAdd.value, link: link.value }, handleCardClick, ".item-template"));
-    closeModal(addpopup);
     nameAdd.value = '';
     link.value = '';
-    valid1.enableValidation()
+    evt.preventDefault();
+    places.prepend(createCard({
+        name: nameAdd.value, link: link.value
+    }, handleCardClick, ".item-template"));
+    closeModal(addpopup);
     valid2.enableValidation()
 }
-
 formAddElement.addEventListener("submit", handleFormAddCardSubmit);
 
-const valid1 = new FormValidator({
-    inputSelector: ".form__input",
-    submitButtonSelector: ".form__button",
-    inactiveButtonClass: "form__button_inactive",
-    inputErrorClass: "form__input_type_error",
-    errorClass: "form__input-error_active",
-}, ".form_type_edit")
-const valid2 = new FormValidator({
-    inputSelector: ".form__input",
-    submitButtonSelector: ".form__button",
-    inactiveButtonClass: "form__button_inactive",
-    inputErrorClass: "form__input_type_error",
-    errorClass: "form__input-error_active",
-}, ".form_type_add")
+const valid1 = new FormValidator(parametersCard, ".form_type_edit")
+const valid2 = new FormValidator(parametersCard, ".form_type_add")
 // Вызовем функцию
+valid2.enableValidation()
 
 valid1.enableValidation()
-valid2.enableValidation()
