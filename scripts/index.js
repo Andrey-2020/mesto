@@ -48,7 +48,9 @@ const profilejob = document.querySelector(".profile__profession");
 const nameInput = formElement.querySelector(".form__input_type_name-input");
 const jobInput = formElement.querySelector(".form__input_type_job-input");
 const addpopup = document.querySelector(".popup_type_add");
-const closeAddButton = addpopup.querySelector(".popup__button");
+const buttonElement = addpopup.querySelector(
+    parametersCard.submitButtonSelector
+);
 const addButton = document.querySelector(".profile__button_add");
 const popupImg = document.querySelector(".popup_type_image");
 const popups = document.querySelectorAll(".popup");
@@ -125,8 +127,8 @@ function handleFormAddCardSubmit(evt) {
     }, handleCardClick, ".item-template"));
     nameAdd.value = '';
     link.value = '';
+    buttonElement.classList.add(parametersCard.inactiveButtonClass);
     closeModal(addpopup);
-    valid2.enableValidation()
 }
 formAddElement.addEventListener("submit", handleFormAddCardSubmit);
 
