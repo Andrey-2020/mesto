@@ -119,12 +119,12 @@ const formAddElement = document.querySelector(".form_type_add");
 const nameAdd = formAddElement.querySelector(".form__input_type_name");
 const link = formAddElement.querySelector(".form__input_type_link");
 function handleFormAddCardSubmit(evt) {
-    nameAdd.value = '';
-    link.value = '';
     evt.preventDefault();
     places.prepend(createCard({
         name: nameAdd.value, link: link.value
     }, handleCardClick, ".item-template"));
+    nameAdd.value = '';
+    link.value = '';
     closeModal(addpopup);
     valid2.enableValidation()
 }
