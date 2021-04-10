@@ -62,9 +62,10 @@ const popupImg = document.querySelector(".popup_type_image");
 function handleCardClick(name, link) {
     new PopupWithImage(popupImg, name, link).open()
 }
-
+const editPopup = new Popup(popup)
+editPopup.setEventListeners();
 openButton.addEventListener("click", function () {
-    new Popup(popup).open();
+    editPopup.open();
     new UserInfo(".form__input_type_name-input", ".form__input_type_job-input").getUserInfo()
 
 })
@@ -72,9 +73,7 @@ openButton.addEventListener("click", function () {
 function handleFormSubmit(evt) {
     evt.preventDefault();
     new UserInfo(".form__input_type_name-input", ".form__input_type_job-input").setUserInfo()
-
-    new Popup(popup).close();
-
+    editPopup.close();
 }
 
 formElement.addEventListener("submit", handleFormSubmit);
