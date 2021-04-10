@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Андрей">
-    <link rel="stylesheet" href="./pages/index.css">
+    <!-- <link rel="stylesheet" href="./pages/index.css"> -->
     <title>Mesto</title>
 </head>
 
 <body class="root">
     <header class="header">
-        <img class="logo" src="./images/logo.svg" alt="Логотип">
+        <img class="logo" src="<%=require('./images/logo.svg')%>" alt="Логотип">
     </header>
     <main>
         <section class="profile">
@@ -59,10 +59,10 @@
             <h2 class="popup__heading popup__heading_type_add">Новое место</h2>
             <form class="form form_type_add" name="form-edit" novalidate>
                 <fieldset class="form__input-container form__input-container_type_add">
-                    <input class="form__input form__input_type_name" type="text" name="firstname" placeholder="Название"
+                    <input class="form__input form__input_type_name" type="text" name="name" placeholder="Название"
                         minlength="2" maxlength="30" id="place-input" required>
                     <span class="place-input-error form__input-error"></span>
-                    <input class="form__input form__input_type_link" type="url" name="url"
+                    <input class="form__input form__input_type_link" type="url" name="link"
                         placeholder="Ссылка на картинку" value=" " id="url-input" required>
                     <span class="url-input-error form__input-error"></span>
                 </fieldset>
@@ -82,16 +82,16 @@
     <template class="item-template">
         <li class="place">
             <img class="place__image" src="#" alt="#">
-            <img class="place__delete" src="./images/Delete.svg" alt="Удалить" />
+            <img class="place__delete" src="<%=require('./images/Delete.svg')%>" alt="Удалить" />
             <div class="place__info">
                 <h2 class="place__title"></h2>
                 <button class="place__like" type="button" aria-label="like"></button>
             </div>
         </li>
     </template>
-    <script type="module" src="./scripts/index.js"></script>
+    <!-- <script type="module" src="./scripts/index.js"></script>
     <script type="module" src="./scripts/Card.js"></script>
-    <script type="module" src="./scripts/FormValidator.js"></script>
+    <script type="module" src="./scripts/FormValidator.js"></script> -->
 </body>
 
 </html>

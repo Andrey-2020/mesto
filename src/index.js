@@ -1,5 +1,12 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
+import Section from './Section.js';
+import Popup from './Popup.js';
+import PopupWithImage from './PopupWithImage.js';
+import PopupWithForm from './PopupWithForm.js';
+import UserInfo from './UserInfo.js';
+import '../pages/index.css'
+
 const initialCards = [
     {
         name: "Архыз",
@@ -43,94 +50,64 @@ const popup = document.querySelector(".popup_type_edit");
 const openButton = document.querySelector(".profile__button_edit");
 const places = document.querySelector(".places");
 const formElement = document.querySelector(".form_type_edit");
-const profilename = document.querySelector(".profile__autor");
-const profilejob = document.querySelector(".profile__profession");
-const nameInput = formElement.querySelector(".form__input_type_name-input");
-const jobInput = formElement.querySelector(".form__input_type_job-input");
+
 const addpopup = document.querySelector(".popup_type_add");
 const buttonElement = addpopup.querySelector(
     parametersCard.submitButtonSelector
 );
 const addButton = document.querySelector(".profile__button_add");
 const popupImg = document.querySelector(".popup_type_image");
-const popups = document.querySelectorAll(".popup");
-const imagePopupCaption = popupImg.querySelector(".popup__caption")
-const imagePopupPicture = popupImg.querySelector(".popup__image")
-function openModal(popup) {
-    popup.classList.add("popup_opened");
-    document.addEventListener("keydown", closeByEscape);
-}
-function closeModal(popup) {
-    popup.classList.remove("popup_opened");
-    document.removeEventListener("keydown", closeByEscape);
-}
-function closeByEscape(evt) {
-    if (evt.key === "Escape") {
-        const openedPopup = document.querySelector(".popup_opened");
-        closeModal(openedPopup);
-    }
-}
-function handleCardClick(name, link) {
-    openModal(popupImg)
-    imagePopupPicture.src = link
-    imagePopupCaption.textContent = name
-}
 
+
+function handleCardClick(name, link) {
+    new PopupWithImage(popupImg, name, link).open()
+}
 
 openButton.addEventListener("click", function () {
-    openModal(popup);
-    nameInput.value = profilename.textContent;
-    jobInput.value = profilejob.textContent;
+    new Popup(popup).open();
+    new UserInfo(".form__input_type_name-input", ".form__input_type_job-input").getUserInfo()
+
 })
-
-
-popups.forEach((popup) => {
-    popup.addEventListener("click", (evt) => {
-        if (evt.target.classList.contains("popup_opened")) {
-            closeModal(popup);
-        }
-        if (evt.target.classList.contains("popup__button")) {
-            closeModal(popup);
-        }
-    });
-});
 
 function handleFormSubmit(evt) {
     evt.preventDefault();
-    profilename.textContent = nameInput.value;
-    profilejob.textContent = jobInput.value;
+    new UserInfo(".form__input_type_name-input", ".form__input_type_job-input").setUserInfo()
 
-    closeModal(popup);
+    new Popup(popup).close();
+
 }
 
 formElement.addEventListener("submit", handleFormSubmit);
 
 
 addButton.addEventListener("click", function () {
-    openModal(addpopup);
+    new Popup(addpopup).open()
 });
 
-function createCard(item, handleCardClick, template) {
-    const card = new Card(item, handleCardClick, template);
-    return card.renderCard()
-}
-initialCards.reverse().forEach((item) => {
-    places.prepend(createCard(item, handleCardClick, ".item-template"))
-});
+
+
+const cardsContainer = new Section({
+    items: initialCards,
+    renderer: (card) => {
+        const cardPrototip = new Card(card, handleCardClick, ".item-template")
+        const cardElement = cardPrototip.renderCard()
+        cardsContainer.addItem(cardElement);
+    }
+}, places)
+cardsContainer.renderItems()
 const formAddElement = document.querySelector(".form_type_add");
-const nameAdd = formAddElement.querySelector(".form__input_type_name");
-const link = formAddElement.querySelector(".form__input_type_link");
-function handleFormAddCardSubmit(evt) {
-    evt.preventDefault();
-    places.prepend(createCard({
-        name: nameAdd.value, link: link.value
-    }, handleCardClick, ".item-template"));
-    nameAdd.value = '';
-    link.value = '';
-    buttonElement.classList.add(parametersCard.inactiveButtonClass);
-    closeModal(addpopup);
-}
-formAddElement.addEventListener("submit", handleFormAddCardSubmit);
+
+const popupImage = new PopupWithForm(addpopup,
+    (formData) => {
+        const card = new Card(formData, handleCardClick, ".item-template");
+        const cardElement = card.renderCard()
+        places.prepend(cardElement);
+        buttonElement.classList.add(parametersCard.inactiveButtonClass);
+        popupImage.close()
+    }, formAddElement
+)
+popupImage.setEventListeners()
+
 
 const valid1 = new FormValidator(parametersCard, ".form_type_edit")
 const valid2 = new FormValidator(parametersCard, ".form_type_add")

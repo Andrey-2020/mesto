@@ -24,14 +24,14 @@ export default class Card {
 
   _handleImgPopup(item, name, src) {
     const photo = item.querySelector(".place__image");
-    photo.addEventListener('click',  () => {
+    photo.addEventListener('click', () => {
       this._handleCardClick(name, src);
     });
   }
   _createCard(htmlElement) {
     this._handleLike(htmlElement);
     this._handleDelete(htmlElement);
-    this._handleImgPopup(htmlElement,this._name, this._src);
+    this._handleImgPopup(htmlElement, this._name, this._src);
     htmlElement.querySelector(".place__title").textContent = this._name;
     htmlElement.querySelector(".place__image").setAttribute("src", this._src);
     htmlElement.querySelector(".place__image").setAttribute("alt", this._name);

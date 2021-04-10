@@ -1,0 +1,39 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "* Интерактивная страница, куда можно добавлять фотографии, удалять их и ставить лайки.\r * Использовались для создания сайта: Flexbox-вёрстка, Grid Layout. Шаблон template для создания карточки, добавили его на страницу с помощью prepend. Клонирование карточки для создания списка cloneNode. toggle для создания попапа через переключение классов и переключения лайка. Удаление реальзовалось функцией remove(), найдя ближайшую к кнопке удаление карточку - closest. \r * Все формы имеют Валидацию JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andrey-2020/mesto.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Andrey-2020/mesto/issues"
+  },
+  "homepage": "https://github.com/Andrey-2020/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.13.15",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-env": "^7.13.15",
+    "autoprefixer": "^10.2.5",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^5.2.1",
+    "cssnano": "^5.0.0",
+    "html-webpack-plugin": "^5.3.1",
+    "mini-css-extract-plugin": "^1.4.1",
+    "postcss-loader": "^5.2.0",
+    "webpack": "^5.31.2",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "core-js": "^3.10.1"
+  }
+}

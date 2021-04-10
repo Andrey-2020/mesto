@@ -67,16 +67,16 @@ export default class FormValidator {
   enableValidation() {
     // Найдём все формы с указанным классом в DOM,
     // сделаем из них массив методом Array.from
-    const formElement =  document.querySelector(this._formSelector)
+    const formElement = document.querySelector(this._formSelector)
 
-      formElement.addEventListener("submit", (evt) => {
-        // У каждой формы отменим стандартное поведение
-        evt.preventDefault();
-      });
+    formElement.addEventListener("submit", (evt) => {
+      // У каждой формы отменим стандартное поведение
+      evt.preventDefault();
+    });
 
-      // Для каждой формы вызовем функцию setEventListeners,
-      // передав ей элемент формы
-      this._setEventListeners(formElement);
+    // Для каждой формы вызовем функцию setEventListeners,
+    // передав ей элемент формы
+    this._setEventListeners(formElement);
 
-}
+  }
 }
