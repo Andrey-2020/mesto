@@ -1,7 +1,16 @@
 export default class FormValidator {
-  constructor(parameters, formSelector) {
+  constructor(parameters, formElement) {
     this._parameters = parameters
-    this._formSelector = formSelector
+    this._formElement = formElement
+    // Находим все поля внутри формы,
+    // сделаем из них массив методом Array.from
+    this._inputList = Array.from(
+      this._formElement.querySelectorAll(this._parameters.inputSelector)
+    );
+    // Найдём в текущей форме кнопку отправки
+    this._buttonElement = this._formElement.querySelector(
+      this._parameters.submitButtonSelector
+    );
   }
   _showInputError(formElement, inputElement, errorMessage) {
     const formError = formElement.querySelector(`.${inputElement.id}-error`);
@@ -31,52 +40,46 @@ export default class FormValidator {
       return !inputElement.validity.valid;
     });
   };
+  disableSubmitButton() {
+    this._buttonElement.classList.add(this._parameters.inactiveButtonClass);
+    this._buttonElement.setAttribute('disabled', true)
+  }
   _toggleButtonState = (inputList, buttonElement) => {
     if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.add(this._parameters.inactiveButtonClass);
+      this.disableSubmitButton()
     } else {
       buttonElement.classList.remove(this._parameters.inactiveButtonClass);
+      buttonElement.removeAttribute('disabled', true)
     }
   };
   //setEventListeners добавит обработчики сразу всем полям формы
   _setEventListeners = (formElement) => {
-    // Находим все поля внутри формы,
-    // сделаем из них массив методом Array.from
-    const inputList = Array.from(
-      formElement.querySelectorAll(this._parameters.inputSelector)
-    );
-    // Найдём в текущей форме кнопку отправки
-    const buttonElement = formElement.querySelector(
-      this._parameters.submitButtonSelector
-    );
+
     // Вызовем toggleButtonState, чтобы не ждать ввода данных в поля
-    this._toggleButtonState(inputList, buttonElement);
+    this._toggleButtonState(this._inputList, this._buttonElement);
     // Обойдём все элементы полученной коллекции
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       // каждому полю добавим обработчик события input
       inputElement.addEventListener("input", () => {
         // Внутри колбэка вызовем isValid,
         // передав ей форму и проверяемый элемент
         this._isValid(formElement, inputElement);
-        this._toggleButtonState(inputList, buttonElement);
+        this._toggleButtonState(this._inputList, this._buttonElement);
       });
     });
   };
 
   //Добавление обработчиков всем формам
   enableValidation() {
-    // Найдём все формы с указанным классом в DOM,
-    // сделаем из них массив методом Array.from
-    const formElement = document.querySelector(this._formSelector)
 
-    formElement.addEventListener("submit", (evt) => {
+    this._formElement.addEventListener("submit", (evt) => {
       // У каждой формы отменим стандартное поведение
       evt.preventDefault();
     });
 
     // Для каждой формы вызовем функцию setEventListeners,
     // передав ей элемент формы
-    this._setEventListeners(formElement);
+    this._setEventListeners(this._formElement);
 
   }
 }

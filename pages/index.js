@@ -1,11 +1,10 @@
-import Card from './Card.js';
-import FormValidator from './FormValidator.js';
-import Section from './Section.js';
-import Popup from './Popup.js';
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from './PopupWithForm.js';
-import UserInfo from './UserInfo.js';
-import '../pages/index.css'
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
+import './index.css'
 
 const initialCards = [
     {
@@ -46,70 +45,68 @@ const parametersCard = {
     inputErrorClass: "form__input_type_error",
     errorClass: "form__input-error_active",
 }
-const popup = document.querySelector(".popup_type_edit");
+
 const openButton = document.querySelector(".profile__button_edit");
 const places = document.querySelector(".places");
-const formElement = document.querySelector(".form_type_edit");
-
-const addpopup = document.querySelector(".popup_type_add");
-const buttonElement = addpopup.querySelector(
-    parametersCard.submitButtonSelector
-);
 const addButton = document.querySelector(".profile__button_add");
-const popupImg = document.querySelector(".popup_type_image");
 
+const popupWithImage = new PopupWithImage(".popup_type_image");
+popupWithImage.setEventListeners();
 
 function handleCardClick(name, link) {
-    new PopupWithImage(popupImg, name, link).open()
+    popupWithImage.open(name, link)
 }
-const editPopup = new Popup(popup)
-editPopup.setEventListeners();
+
+const nameInput = document.querySelector(".form__input_type_name-input")
+const professionInput = document.querySelector(".form__input_type_job-input")
+
+const formEditElement = document.querySelector(".form_type_edit");
+const userInfo = new UserInfo(".profile__autor", ".profile__profession")
+const editPopup = new PopupWithForm(".popup_type_edit",
+    (formData) => {
+        userInfo.setUserInfo(formData.name, formData.profession)
+        valid1.disableSubmitButton()
+        editPopup.close();
+    }, formEditElement
+)
 openButton.addEventListener("click", function () {
     editPopup.open();
-    new UserInfo(".form__input_type_name-input", ".form__input_type_job-input").getUserInfo()
-
-})
-
-function handleFormSubmit(evt) {
-    evt.preventDefault();
-    new UserInfo(".form__input_type_name-input", ".form__input_type_job-input").setUserInfo()
-    editPopup.close();
-}
-
-formElement.addEventListener("submit", handleFormSubmit);
-
-
-addButton.addEventListener("click", function () {
-    new Popup(addpopup).open()
+    const info = userInfo.getUserInfo()
+    nameInput.value = info.name
+    professionInput.value = info.profession;
 });
+editPopup.setEventListeners()
 
-
-
+function createCard(item) {
+    const card = new Card(item, handleCardClick, ".item-template");
+    return card.renderCard();
+}
 const cardsContainer = new Section({
     items: initialCards,
     renderer: (card) => {
-        const cardPrototip = new Card(card, handleCardClick, ".item-template")
-        const cardElement = cardPrototip.renderCard()
+        const cardElement = createCard(card)
         cardsContainer.addItem(cardElement);
     }
 }, places)
 cardsContainer.renderItems()
 const formAddElement = document.querySelector(".form_type_add");
 
-const popupImage = new PopupWithForm(addpopup,
+const popupImage = new PopupWithForm(".popup_type_add",
     (formData) => {
-        const card = new Card(formData, handleCardClick, ".item-template");
-        const cardElement = card.renderCard()
+        const cardElement = createCard(formData)
         places.prepend(cardElement);
-        buttonElement.classList.add(parametersCard.inactiveButtonClass);
+        valid2.disableSubmitButton()
         popupImage.close()
     }, formAddElement
 )
+addButton.addEventListener("click", function () {
+    popupImage.open();
+});
 popupImage.setEventListeners()
 
 
-const valid1 = new FormValidator(parametersCard, ".form_type_edit")
-const valid2 = new FormValidator(parametersCard, ".form_type_add")
+const valid1 = new FormValidator(parametersCard, formEditElement)
+const valid2 = new FormValidator(parametersCard, formAddElement)
 // Вызовем функцию
 valid2.enableValidation()
 
