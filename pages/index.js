@@ -101,6 +101,7 @@ const popupImage = new PopupWithForm(".popup_type_add",
 )
 addButton.addEventListener("click", function () {
     popupImage.open();
+    valid2.disableSubmitButton() 
 });
 popupImage.setEventListeners()
 

@@ -1,85 +1,87 @@
-export default class FormValidator {
-  constructor(parameters, formElement) {
-    this._parameters = parameters
-    this._formElement = formElement
-    // Находим все поля внутри формы,
-    // сделаем из них массив методом Array.from
-    this._inputList = Array.from(
-      this._formElement.querySelectorAll(this._parameters.inputSelector)
-    );
-    // Найдём в текущей форме кнопку отправки
-    this._buttonElement = this._formElement.querySelector(
-      this._parameters.submitButtonSelector
-    );
-  }
-  _showInputError(formElement, inputElement, errorMessage) {
-    const formError = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.add(this._parameters.inputErrorClass);
-    formError.textContent = errorMessage;
-    formError.classList.add(this._parameters.errorClass);
-  }
-  _hideInputError(formElement, inputElement) {
-    const formError = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove(this._parameters.inputErrorClass);
-    formError.classList.remove(this._parameters.errorClass);
-    formError.textContent = " ";
-  }
-  _isValid(formElement, inputElement) {
-    if (!inputElement.validity.valid) {
-      this._showInputError(
-        formElement,
-        inputElement,
-        inputElement.validationMessage
-      );
-    } else {
-      this._hideInputError(formElement, inputElement);
-    }
-  }
-  _hasInvalidInput = (inputList) => {
-    return inputList.some((inputElement) => {
-      return !inputElement.validity.valid;
-    });
-  };
-  disableSubmitButton() {
-    this._buttonElement.classList.add(this._parameters.inactiveButtonClass);
-    this._buttonElement.setAttribute('disabled', true)
-  }
-  _toggleButtonState = (inputList, buttonElement) => {
-    if (this._hasInvalidInput(inputList)) {
-      this.disableSubmitButton()
-    } else {
-      buttonElement.classList.remove(this._parameters.inactiveButtonClass);
-      buttonElement.removeAttribute('disabled', true)
-    }
-  };
-  //setEventListeners добавит обработчики сразу всем полям формы
-  _setEventListeners = (formElement) => {
+export default class FormValidator { 
+  constructor(parameters, formElement) { 
+    this._parameters = parameters 
+    this._formElement = formElement 
+    // Находим все поля внутри формы, 
+    // сделаем из них массив методом Array.from 
+    this._inputList = Array.from( 
+      this._formElement.querySelectorAll(this._parameters.inputSelector) 
+    ); 
+    // Найдём в текущей форме кнопку отправки 
+    this._buttonElement = this._formElement.querySelector( 
+      this._parameters.submitButtonSelector 
+    ); 
+  } 
+  _showInputError(inputElement, errorMessage) { 
 
-    // Вызовем toggleButtonState, чтобы не ждать ввода данных в поля
-    this._toggleButtonState(this._inputList, this._buttonElement);
-    // Обойдём все элементы полученной коллекции
-    this._inputList.forEach((inputElement) => {
-      // каждому полю добавим обработчик события input
-      inputElement.addEventListener("input", () => {
-        // Внутри колбэка вызовем isValid,
-        // передав ей форму и проверяемый элемент
-        this._isValid(formElement, inputElement);
-        this._toggleButtonState(this._inputList, this._buttonElement);
-      });
-    });
-  };
+    const formError = this._formElement.querySelector(`.${inputElement.id}-error`); 
+    inputElement.classList.add(this._parameters.inputErrorClass); 
+    formError.textContent = errorMessage; 
+    formError.classList.add(this._parameters.errorClass); 
+  } 
+  _hideInputError(inputElement) { 
 
-  //Добавление обработчиков всем формам
-  enableValidation() {
-
-    this._formElement.addEventListener("submit", (evt) => {
-      // У каждой формы отменим стандартное поведение
-      evt.preventDefault();
-    });
-
-    // Для каждой формы вызовем функцию setEventListeners,
-    // передав ей элемент формы
-    this._setEventListeners(this._formElement);
-
-  }
-}
+    const formError = this._formElement.querySelector(`.${inputElement.id}-error`); 
+    inputElement.classList.remove(this._parameters.inputErrorClass); 
+    formError.classList.remove(this._parameters.errorClass); 
+    formError.textContent = " "; 
+  } 
+  _isValid(inputElement) { 
+    if (!inputElement.validity.valid) { 
+      this._showInputError( 
+        inputElement, 
+        inputElement.validationMessage 
+      ); 
+    } else { 
+      this._hideInputError(inputElement); 
+    } 
+  } 
+  _hasInvalidInput = (inputList) => { 
+    return inputList.some((inputElement) => { 
+      return !inputElement.validity.valid; 
+    }); 
+  }; 
+  disableSubmitButton() { 
+    this._buttonElement.classList.add(this._parameters.inactiveButtonClass); 
+    this._buttonElement.setAttribute('disabled', true) 
+  } 
+  _toggleButtonState = (inputList, buttonElement) => { 
+    if (this._hasInvalidInput(inputList)) { 
+      this.disableSubmitButton() 
+    } else { 
+      buttonElement.classList.remove(this._parameters.inactiveButtonClass); 
+      buttonElement.removeAttribute('disabled', true) 
+    } 
+  }; 
+  //setEventListeners добавит обработчики сразу всем полям формы 
+  _setEventListeners = () => { 
+ 
+    // Вызовем toggleButtonState, чтобы не ждать ввода данных в поля 
+    this._toggleButtonState(this._inputList, this._buttonElement); 
+    // Обойдём все элементы полученной коллекции 
+    this._inputList.forEach((inputElement) => { 
+      // каждому полю добавим обработчик события input 
+      inputElement.addEventListener("input", () => { 
+        // Внутри колбэка вызовем isValid, 
+        // передав ей форму и проверяемый элемент 
+        this._isValid(inputElement); 
+        this._toggleButtonState(this._inputList, this._buttonElement); 
+      }); 
+    }); 
+  }; 
+ 
+  //Добавление обработчиков всем формам 
+  enableValidation() { 
+ 
+    this._formElement.addEventListener("submit", (evt) => { 
+      // У каждой формы отменим стандартное поведение 
+      evt.preventDefault(); 
+    }); 
+ 
+    // Для каждой формы вызовем функцию setEventListeners, 
+    // передав ей элемент формы 
+    this._setEventListeners(); 
+ 
+  } 
+} 
+ 
