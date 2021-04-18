@@ -3,15 +3,9 @@ export default class PopupWithForm extends Popup {
     constructor(popupSelector, handleFormAddCardSubmit, formAddElement, api) {
         super(popupSelector);
         this._handleFormSubmit = handleFormAddCardSubmit
-        // this._renderLoading = renderLoading
         this._formAddElement = formAddElement
         this._inputList = this._formAddElement.querySelectorAll('.form__input');
         this._api = api;
-        this.handlerShim = (evt) => {
-            evt.preventDefault();
-            this._formAddElement.removeEventListener('submit', this.handlerShim)
-            this._handleFormSubmit(this._getInputValues());
-          };
     }
     _getInputValues() {
         // достаём все элементы полей
@@ -29,7 +23,10 @@ export default class PopupWithForm extends Popup {
 
     setEventListeners() {
         super.setEventListeners()
-        this._formAddElement.addEventListener('submit', this.handlerShim)
+        this._formAddElement.addEventListener('submit', (evt)=>{
+            evt.preventDefault();
+            this._handleFormSubmit(this._getInputValues());
+        })
         // добавим вызов функции _handleFormSubmit
         // передадим ей объект — результат работы _getInputValues
 

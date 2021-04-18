@@ -6,7 +6,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 import './index.css'
-
+import PopupWithConfirm from '../components/PopupWithConfirm.js';
 
 const options = {
     url: 'https://mesto.nomoreparties.co/v1/cohort-21/cards',
@@ -31,12 +31,16 @@ Promise.all([api.getTasks(), apiUser.getTasks()])
         const cardsContainer = new Section({
             items: res[0],
             renderer: (card) => {
-                const cardElement = createCard(card, api, userId)
+                const cardElement = createCard2(card._id, card.name, card.link, card.likes, card.owner)
                 cardsContainer.addItem(cardElement);
             }
         }, places);
         cardsContainer.renderItems();
     })
+// renderer: (card) => {
+//     const cardElement = createCard(card, api, userId)
+//     cardsContainer.addItem(cardElement);
+// }
 
 const formEditElement = document.querySelector(".form_type_edit");
 const formUpdateAvatar = document.querySelector(".form_type_update-avatar");
@@ -163,11 +167,30 @@ function createCard(item, api, apiUser) {
 //     })
 //     confirmDelete.setEventListeners()
 // }
+// Создание попапа
+const popupConfirm = new PopupWithConfirm('.popup_type_confirm', api);
+
+// Функция создания карточки
+function createCard2(id, name, link, likes, owner) {
+    const cardPrototype = new Card({
+        id: id,
+        name: name,
+        link: link,
+        likes: likes,
+        owner: owner
+    }, handleCardClick, (id, deleteFunc) => {  // Функция открытия попапа (внутри класса Card это handlePopupOpen)
+        popupConfirm.open(id, deleteFunc);                    // передаем туда ид и функцию удаления (_deleteElement из класса Card)
+    }, ".item-template", api, userId)
+    return cardPrototype.renderCard();
+}
+popupConfirm.setEventListeners()
+
+
 
 const formAddElement = document.querySelector(".form_type_add");
 const popupImage = new PopupWithForm(".popup_type_add",
     (formData) => {
-        const cardElement = createCard(formData, api, userId)
+        const cardElement = createCard2(formData._id, formData.name, formData.link, formData.likes, formData.owner)
         places.prepend(cardElement);
         valid2.disableSubmitButton()
         popupImage.close()
