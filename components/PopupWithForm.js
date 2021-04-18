@@ -23,12 +23,11 @@ export default class PopupWithForm extends Popup {
 
     setEventListeners() {
         super.setEventListeners()
-        this._formAddElement.addEventListener('submit', (evt)=>{
+        this._formAddElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this._handleFormSubmit(this._getInputValues());
         })
-        // добавим вызов функции _handleFormSubmit
-        // передадим ей объект — результат работы _getInputValues
+
 
 
     }
@@ -40,10 +39,6 @@ export default class PopupWithForm extends Popup {
                 .then((card) => {
                     this._handleFormSubmit(card);
                 })
-  
-            // добавим вызов функции _handleFormSubmit
-            // передадим ей объект — результат работы _getInputValues
-
 
         });
     }

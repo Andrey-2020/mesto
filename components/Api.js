@@ -60,7 +60,7 @@ export default class Api {
             })
             .catch(err => Promise.reject(err))
     }
-    updateTask(object,url) {
+    updateTask(object, url) {
         return fetch(`${this.url}/${url}`, {
             method: 'PATCH',
             headers: this.headers,

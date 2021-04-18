@@ -31,16 +31,13 @@ Promise.all([api.getTasks(), apiUser.getTasks()])
         const cardsContainer = new Section({
             items: res[0],
             renderer: (card) => {
-                const cardElement = createCard2(card._id, card.name, card.link, card.likes, card.owner)
+                const cardElement = createCard(card)
                 cardsContainer.addItem(cardElement);
             }
         }, places);
         cardsContainer.renderItems();
     })
-// renderer: (card) => {
-//     const cardElement = createCard(card, api, userId)
-//     cardsContainer.addItem(cardElement);
-// }
+
 
 const formEditElement = document.querySelector(".form_type_edit");
 const formUpdateAvatar = document.querySelector(".form_type_update-avatar");
@@ -139,47 +136,12 @@ function handleCardClick(name, link) {
 }
 
 
-function createCard(item, api, apiUser) {
-    const card = new Card(item, handleCardClick, ".item-template", api, apiUser);
-    return card.renderCard();
-}
-// const cardsContainer = new Section({
-//     items: initialCards,
-//     renderer: (card) => {
-//         const cardElement = createCard(card)
-//         cardsContainer.addItem(cardElement);
-//     }
-// }, places)
-// cardsContainer.renderItems()
-// const formConfirmDelete = document.querySelector(".form_type_confirm");
-// function handleDelete(item, formData) {
-//     const deleteCard = item.querySelector(".place__delete");
-//     const confirmDelete = new PopupWithForm(".popup_type_confirm", () => {
-//         api.deleteTask(formData._id)
-//         console.log(formData)
-//         const deleteItem = deleteCard.closest(".place");
-//         deleteItem.remove();
-//         confirmDelete.close();
-//         formData._id = undefined;
-//     }, formConfirmDelete, api)
-//     deleteCard.addEventListener("click", () => {
-//         confirmDelete.open();
-//     })
-//     confirmDelete.setEventListeners()
-// }
-// Создание попапа
+
 const popupConfirm = new PopupWithConfirm('.popup_type_confirm', api);
 
-// Функция создания карточки
-function createCard2(id, name, link, likes, owner) {
-    const cardPrototype = new Card({
-        id: id,
-        name: name,
-        link: link,
-        likes: likes,
-        owner: owner
-    }, handleCardClick, (id, deleteFunc) => {  // Функция открытия попапа (внутри класса Card это handlePopupOpen)
-        popupConfirm.open(id, deleteFunc);                    // передаем туда ид и функцию удаления (_deleteElement из класса Card)
+function createCard(data) {
+    const cardPrototype = new Card(data, handleCardClick, (id, deleteFunc) => {  // Функция открытия попапа 
+        popupConfirm.open(id, deleteFunc);                   
     }, ".item-template", api, userId)
     return cardPrototype.renderCard();
 }
@@ -190,7 +152,7 @@ popupConfirm.setEventListeners()
 const formAddElement = document.querySelector(".form_type_add");
 const popupImage = new PopupWithForm(".popup_type_add",
     (formData) => {
-        const cardElement = createCard2(formData._id, formData.name, formData.link, formData.likes, formData.owner)
+        const cardElement = createCard(formData)
         places.prepend(cardElement);
         valid2.disableSubmitButton()
         popupImage.close()
