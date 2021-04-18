@@ -19,8 +19,6 @@
 }
 
 .profile__cover-avatar:hover::before {
-    background-size: cover;
-    background-position: center;
     border-radius: 60px;
     width: 120px;
     height: 120px;
