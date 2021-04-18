@@ -1,7 +1,7 @@
 .place__like {
     outline: none;
     border: 0;
-    margin-right: 5px;
+    margin: 0;
     background-size: cover;
     background-image: url(../../../images/Heart.jpg);
     height: 19px;

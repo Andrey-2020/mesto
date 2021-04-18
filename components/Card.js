@@ -1,24 +1,71 @@
-
+import PopupWithForm from '../components/PopupWithForm.js';
 export default class Card {
-  constructor(data, handleCardClick, cardSelector) {
+  constructor(data, handleCardClick, cardSelector, api, userId) {
     this._name = data.name;
     this._src = data.link;
+    this._ownerId = data.owner._id
+    this._id = data._id;
+    this._likes = data.likes;
     this._handleCardClick = handleCardClick;
+    // this._handleConfirmDelete = handleConfirmDelete;
     this._cardSelector = cardSelector;
-
+    this._api = api;
+    this._userId = userId;
   }
 
   _handleDelete(item) {
-    const deleteCard = item.querySelector(".place__delete");
-    deleteCard.addEventListener("click", function () {
-      const deleteItem = deleteCard.closest(".place");
-      deleteItem.remove();
-    });
+    if (this._ownerId !== this._userId) {
+      item.querySelector(".place__delete").classList.add("place__delete-none");
+    } else {
+      const formConfirmDelete = document.querySelector(".form_type_confirm");
+      const deleteCard = item.querySelector(".place__delete");
+      const confirmDelete = new PopupWithForm(".popup_type_confirm", () => {
+        this._api.deleteTask(this._id)
+        const deleteItem = deleteCard.closest(".place");
+        deleteItem.remove();
+        confirmDelete.close();
+        this._id = undefined;
+      }, formConfirmDelete, this._api)
+      deleteCard.addEventListener("click", () => {
+        confirmDelete.open();
+      })
+    }
+    // const deleteCard = item.querySelector(".place__delete");
+
+    // deleteCard.addEventListener("click", () => {
+    //   this._api.deleteTask(this._id)
+    //     .then(() => {
+    //       const deleteItem = deleteCard.closest(".place");
+    //       deleteItem.remove();
+    //     })
+    //     .catch(err => console.log('Ошибка. Запрос не выполнен: ', err))
+    // });
   }
   _handleLike(item) {
     const like = item.querySelector(".place__like");
-    like.addEventListener("click", function () {
-      like.classList.toggle("place__like_active");
+    const likeofNumbers = item.querySelector(".place__number-of-like");
+    this._likes.forEach(element => {
+      if (element._id === this._userId) {
+        like.classList.add("place__like_active");
+      }
+    })
+    likeofNumbers.textContent = this._likes.length;
+
+    like.addEventListener("click", () => {
+      if (!like.classList.contains("place__like_active")) {
+        this._api.putTask(`likes/${this._id}`)
+          .then(data => {
+            likeofNumbers.textContent = data.likes.length;
+            like.classList.toggle("place__like_active");
+          })
+      } else {
+        this._api.deleteTask(`likes/${this._id}`)
+          .then(data => {
+            likeofNumbers.textContent = data.likes.length;
+            like.classList.toggle("place__like_active");
+          })
+      }
+
     });
   }
 
