@@ -5,11 +5,13 @@ export default class PopupWithConfirm extends Popup {
         this._cardId = undefined;
         this._deleteCardFunc = undefined;
         this._api = api;
-        this._submitButton = document.querySelector('.form__button_type_confirm');
+        this._submitButton = this._popupElement.querySelector('.form__button_type_confirm');
         this._handleDeleteElement = (cardId, deleteCardFunc) => {
-            this._api.deleteTask(cardId);
-            deleteCardFunc();
-            super.close();
+            this._api.deleteTask(`cards/${cardId}`)
+                .then(() => {
+                    deleteCardFunc();
+                    super.close();
+                })
         };
     }
 

@@ -20,32 +20,34 @@ export default class PopupWithForm extends Popup {
         // возвращаем объект значений
         return this._formValues;
     }
+    renderLoading(isLoading, button) {
+        if (isLoading) {
+            button.textContent = 'Сохранение...';
+        } else {
+            button.textContent = 'Сохранить';
+        }
+    }
 
-    setEventListeners() {
+    handleUpdate() {
         super.setEventListeners()
         this._formAddElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this._handleFormSubmit(this._getInputValues());
         })
-
-
-
     }
-    setEventListenersn() {
+    setEventListeners() {
         super.setEventListeners();
         this._formAddElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            this._api.createTask(this._getInputValues())
+            this._api.createTask(this._getInputValues(), 'cards')
                 .then((card) => {
                     this._handleFormSubmit(card);
                 })
-
+                .catch(err => Promise.reject(err))
         });
     }
     close() {
+        this._formAddElement.reset()
         super.close()
-        this._inputList.forEach(input => {
-            input.value = '';
-        });
     }
 }

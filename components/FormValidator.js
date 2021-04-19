@@ -45,19 +45,28 @@ export default class FormValidator {
     this._buttonElement.classList.add(this._parameters.inactiveButtonClass); 
     this._buttonElement.setAttribute('disabled', true) 
   } 
-  _toggleButtonState = (inputList, buttonElement) => { 
-    if (this._hasInvalidInput(inputList)) { 
+  _toggleButtonState = () => { 
+    if (this._hasInvalidInput(this._inputList)) { 
       this.disableSubmitButton() 
     } else { 
-      buttonElement.classList.remove(this._parameters.inactiveButtonClass); 
-      buttonElement.removeAttribute('disabled', true) 
+      this._buttonElement.classList.remove(this._parameters.inactiveButtonClass); 
+      this._buttonElement.removeAttribute('disabled', true) 
     } 
   }; 
+  resetValidation() {
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    });
+
+    this._toggleButtonState(); 
+  }
+
+
   //setEventListeners добавит обработчики сразу всем полям формы 
   _setEventListeners = () => { 
  
     // Вызовем toggleButtonState, чтобы не ждать ввода данных в поля 
-    this._toggleButtonState(this._inputList, this._buttonElement); 
+    this.resetValidation()
     // Обойдём все элементы полученной коллекции 
     this._inputList.forEach((inputElement) => { 
       // каждому полю добавим обработчик события input 
@@ -65,7 +74,7 @@ export default class FormValidator {
         // Внутри колбэка вызовем isValid, 
         // передав ей форму и проверяемый элемент 
         this._isValid(inputElement); 
-        this._toggleButtonState(this._inputList, this._buttonElement); 
+        this._toggleButtonState();
       }); 
     }); 
   }; 

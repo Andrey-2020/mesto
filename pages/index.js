@@ -9,111 +9,88 @@ import './index.css'
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
 
 const options = {
-    url: 'https://mesto.nomoreparties.co/v1/cohort-21/cards',
+    url: 'https://mesto.nomoreparties.co/v1/cohort-21',
     headers: {
         authorization: 'c4582077-8562-4c7d-9d43-345a93912f9e',
         'Content-Type': 'application/json'
     }
 }
-const optionsUser = {
-    url: 'https://mesto.nomoreparties.co/v1/cohort-21/users/me',
-    headers: {
-        authorization: 'c4582077-8562-4c7d-9d43-345a93912f9e',
-        'Content-Type': 'application/json'
-    }
-}
+
 const api = new Api(options)
-const apiUser = new Api(optionsUser)
-let userId;
-Promise.all([api.getTasks(), apiUser.getTasks()])
-    .then((res) => {
-        userId = res[1]._id;
-        const cardsContainer = new Section({
-            items: res[0],
-            renderer: (card) => {
-                const cardElement = createCard(card)
-                cardsContainer.addItem(cardElement);
-            }
-        }, places);
-        cardsContainer.renderItems();
-    })
+const cardsContainer = new Section({
+    renderer: (card) => {
+        const cardElement = createCard(card)
+        cardsContainer.addItem(cardElement);
+    }
+}, ".places");
 
 
+const userInfo = new UserInfo(".profile__autor", ".profile__profession", ".profile__avatar")
 const formEditElement = document.querySelector(".form_type_edit");
 const formUpdateAvatar = document.querySelector(".form_type_update-avatar");
-const userInfo = new UserInfo(".profile__autor", ".profile__profession")
 const nameInput = document.querySelector(".form__input_type_name-input")
 const professionInput = document.querySelector(".form__input_type_job-input")
-const name12 = document.querySelector(".profile__autor")
-const profes12 = document.querySelector(".profile__profession")
-const avatar = document.querySelector(".profile__avatar")
 const submitEditButton = formEditElement.querySelector(".form__button")
-apiUser.getTasks()
-    .then(data => {
-        console.log(data)
-        name12.textContent = data.name;
-        profes12.textContent = data.about;
-        avatar.src = data.avatar;
-
-        const editPopup = new PopupWithForm(".popup_type_edit",
-            (formData) => {
-                apiUser.updateTask({
-                    name: `${formData.name}`,
-                    about: `${formData.profession}`
-                }, "")
-                    .then((userData) => {
-                        userInfo.setUserInfo(userData.name, userData.about)
-                        renderLoading(true, submitEditButton, valid1)
-                    })
-                    .finally(() => {
-                        renderLoading(false, submitEditButton, valid1)
-                    })
-                valid1.disableSubmitButton()
+const editPopup = new PopupWithForm(".popup_type_edit",
+    (formData) => {
+        api.updateTask({
+            name: `${formData.name}`,
+            about: `${formData.profession}`,
+            avatar: `${formData.avatar}`
+        }, 'users/me')
+            .then((userData) => {
+                userInfo.setUserInfo(userData.name, userData.about, userData.avatar)
+                editPopup.renderLoading(true, submitEditButton)
                 editPopup.close();
-            }, formEditElement, api
-        )
+            })
+            .catch(err => Promise.reject(err))
+            .finally(() => {
+                editPopup.renderLoading(false, submitEditButton)
+            })
+        valid1.disableSubmitButton()
+    }, formEditElement, api
+)
+
+let userId;
+Promise.all([api.getTasks('cards'), api.getTasks('users/me')])
+    .then((res) => {
+        userId = res[1]._id;
+        cardsContainer.renderItems(res[0]);
+
+        userInfo.setUserInfo(res[1].name, res[1].about, res[1].avatar)
+
         openButton.addEventListener("click", function () {
             editPopup.open();
             const info = userInfo.getUserInfo()
             nameInput.value = info.name
             professionInput.value = info.profession;
         });
-        editPopup.setEventListeners()
+        editPopup.handleUpdate()
     })
-
+    .catch(err => Promise.reject(err))
 
 
 const formAvatar = document.querySelector(".form_type_update-avatar");
 const avatarEditButton = document.querySelector(".profile__cover-avatar");
 const avatarSubmitButton = document.querySelector(".form__button_type_update-avatar")
 const updateAvatar = new PopupWithForm(".popup_type_update-avatar", (input) => {
-    apiUser.updateTask(input, "avatar")
+    api.updateTask(input, "users/me/avatar")
         .then((data) => {
-            avatar.src = data.avatar;
-            renderLoading(true, avatarSubmitButton, valid3)
-            // updateAvatar.close();
-        })
-        .finally(() => {
-            renderLoading(false, avatarSubmitButton, valid3)
+            userInfo.setUserInfo(data.name, data.about, data.avatar)
+            updateAvatar.renderLoading(true, avatarSubmitButton)
             updateAvatar.close();
         })
-
         .catch(err => console.log('Ошибка. Запрос не выполнен: ', err))
+        .finally(() => {
+            updateAvatar.renderLoading(false, avatarSubmitButton)
+        })
     valid3.disableSubmitButton()
-}, formAvatar, apiUser)
+}, formAvatar, api)
 avatarEditButton.addEventListener("click", () => {
     updateAvatar.open()
 })
-updateAvatar.setEventListeners()
+updateAvatar.handleUpdate()
 
-function renderLoading(isLoading, button, valid) {
-    if (isLoading) {
-        button.textContent = 'Сохранение...';
-        //   valid.disableSubmitButton()
-    } else {
-        button.textContent = 'Сохранить';
-    }
-}
 
 
 const parametersCard = {
@@ -125,7 +102,6 @@ const parametersCard = {
 }
 
 const openButton = document.querySelector(".profile__button_edit");
-const places = document.querySelector(".places");
 const addButton = document.querySelector(".profile__button_add");
 
 const popupWithImage = new PopupWithImage(".popup_type_image");
@@ -140,9 +116,16 @@ function handleCardClick(name, link) {
 const popupConfirm = new PopupWithConfirm('.popup_type_confirm', api);
 
 function createCard(data) {
-    const cardPrototype = new Card(data, handleCardClick, (id, deleteFunc) => {  // Функция открытия попапа 
-        popupConfirm.open(id, deleteFunc);                   
-    }, ".item-template", api, userId)
+    const cardPrototype = new Card(data, {
+        'handleCardClick': handleCardClick,
+        'handlePopupOpen': (id, deleteFunc) => {  // Функция открытия попапа 
+            popupConfirm.open(id, deleteFunc);
+        }
+    }, {
+        'cardSelector': ".item-template",
+        'api': api,
+        'userId': userId,
+    })
     return cardPrototype.renderCard();
 }
 popupConfirm.setEventListeners()
@@ -152,16 +135,16 @@ popupConfirm.setEventListeners()
 const formAddElement = document.querySelector(".form_type_add");
 const popupImage = new PopupWithForm(".popup_type_add",
     (formData) => {
-        const cardElement = createCard(formData)
-        places.prepend(cardElement);
+        cardsContainer.renderItems([formData]);
         valid2.disableSubmitButton()
         popupImage.close()
     }, formAddElement, api)
 addButton.addEventListener("click", function () {
     popupImage.open();
     valid2.disableSubmitButton()
+    valid2.resetValidation()
 });
-popupImage.setEventListenersn()
+popupImage.setEventListeners()
 
 
 const valid1 = new FormValidator(parametersCard, formEditElement)
