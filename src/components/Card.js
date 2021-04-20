@@ -1,12 +1,12 @@
 export default class Card {
-  constructor(card, handlefunction, data) {
+  constructor(card, handle, data) {
     this._name = card.name;
     this._src = card.link;
     this._ownerId = card.owner._id
     this._id = card._id;
-    this._handlePopupOpen = handlefunction.handlePopupOpen;
+    this._handlePopupOpen = handle.handlePopupOpen;
     this._likes = card.likes;
-    this._handleCardClick = handlefunction.handleCardClick;
+    this._handleCardClick = handle.handleCardClick;
     this._cardSelector = data.cardSelector;
     this._api = data.api;
     this._userId = data.userId;
@@ -43,14 +43,14 @@ export default class Card {
 
     like.addEventListener("click", () => {
       if (!like.classList.contains("place__like_active")) {
-        this._api.putTask(`cards/likes/${this._id}`)
+        this._api.putTask(`likes/${this._id}`)
           .then(data => {
             likeofNumbers.textContent = data.likes.length;
             like.classList.toggle("place__like_active");
           })
           .catch(err => Promise.reject(err))
       } else {
-        this._api.deleteTask(`cards/likes/${this._id}`)
+        this._api.deleteTask(`likes/${this._id}`)
           .then(data => {
             likeofNumbers.textContent = data.likes.length;
             like.classList.toggle("place__like_active");

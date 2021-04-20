@@ -1,11 +1,12 @@
 import Popup from './Popup.js';
 export default class PopupWithForm extends Popup {
-    constructor(popupSelector, handleFormAddCardSubmit, formAddElement, api) {
+    constructor(popupSelector, handleFormAddCardSubmit, formAddElement) {
         super(popupSelector);
         this._handleFormSubmit = handleFormAddCardSubmit
         this._formAddElement = formAddElement
         this._inputList = this._formAddElement.querySelectorAll('.form__input');
-        this._api = api;
+        this._buttonSubmit = this._formAddElement.querySelectorAll('.form__button');
+        this._buttonTextSubmit = this._buttonSubmit.textContent
     }
     _getInputValues() {
         // достаём все элементы полей
@@ -20,30 +21,19 @@ export default class PopupWithForm extends Popup {
         // возвращаем объект значений
         return this._formValues;
     }
-    renderLoading(isLoading, button) {
+    renderLoading(isLoading) {
         if (isLoading) {
-            button.textContent = 'Сохранение...';
+            this._buttonSubmit.textContent = 'Сохранение...';
         } else {
-            button.textContent = 'Сохранить';
+            this._buttonSubmit.textContent = `${this._buttonTextSubmit}`;
         }
     }
 
-    handleUpdate() {
-        super.setEventListeners()
-        this._formAddElement.addEventListener('submit', (evt) => {
-            evt.preventDefault();
-            this._handleFormSubmit(this._getInputValues());
-        })
-    }
     setEventListeners() {
         super.setEventListeners();
         this._formAddElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            this._api.createTask(this._getInputValues(), 'cards')
-                .then((card) => {
-                    this._handleFormSubmit(card);
-                })
-                .catch(err => Promise.reject(err))
+            this._handleFormSubmit(this._getInputValues());
         });
     }
     close() {
