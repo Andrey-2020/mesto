@@ -48,14 +48,14 @@ export default class Card {
             likeofNumbers.textContent = data.likes.length;
             like.classList.toggle("place__like_active");
           })
-          .catch(err => Promise.reject(err))
+          .catch(err => console.log('Ошибка. Запрос не выполнен: ', err))
       } else {
         this._api.deleteTask(`likes/${this._id}`)
           .then(data => {
             likeofNumbers.textContent = data.likes.length;
             like.classList.toggle("place__like_active");
           })
-          .catch(err => Promise.reject(err))
+          .catch(err => console.log('Ошибка. Запрос не выполнен: ', err))
       }
 
     });

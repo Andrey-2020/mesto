@@ -1,8 +1,8 @@
 export default class Api {
     constructor(config) {
         this.url = config.url;
-        this._cardUrl= config.cardUrl;
-        this._userUrl= config.userUrl;
+        this._cardUrl = config.cardUrl;
+        this._userUrl = config.userUrl;
         this.headers = config.headers;
     }
     _checkResponse(res) {
@@ -23,7 +23,7 @@ export default class Api {
         })
             .then(this._checkResponse)
     }
-    createTask(card) {
+    createCardTask(card) {
         return fetch(`${this.url}/${this._cardUrl}`, {
             method: 'POST',
             headers: this.headers,
