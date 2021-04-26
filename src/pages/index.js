@@ -71,7 +71,6 @@ const updateAvatar = new PopupWithForm(".popup_type_update-avatar", (input) => {
         .finally(() => {
             updateAvatar.renderLoading(false)
         })
-        valid3.disableSubmitButton()
 }, formAvatar)
 avatarEditButton.addEventListener("click", () => {
     updateAvatar.open()
@@ -120,7 +119,6 @@ const popupImage = new PopupWithForm(".popup_type_add",
             .finally(() => {
                 popupImage.renderLoading(false)
             })
-        valid2.disableSubmitButton()
     }, formAddElement)
 addButton.addEventListener("click", function () {
     popupImage.open();
