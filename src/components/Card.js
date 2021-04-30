@@ -14,7 +14,7 @@ export default class Card {
     this._userId = data.userId;
   }
 
-  _updateLikesView() {
+  _updateLikes() {
     this._element.querySelector(".place__number-of-like").textContent = this._likes.length;
     if (this.islikedActive()) this._element.querySelector('.place__like')
       .classList.add("place__like_active");
@@ -64,7 +64,7 @@ export default class Card {
 
   renderCard() {
     this._element = this._getTemplate();
-    this._updateLikesView();
+    this._updateLikes();
     this._setEventListeners();
 
     this._element.querySelector(".place__title").textContent = this._name;
@@ -84,6 +84,6 @@ export default class Card {
 
   setLikesInfo(data) {
     this._likes = data.likes;
-    this._updateLikesView();
+    this._updateLikes();
   }
 }
