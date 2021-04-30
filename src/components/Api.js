@@ -49,6 +49,20 @@ export default class Api {
         })
             .then(this._checkResponse)
     }
+    likeCard(cardId){
+        return fetch(`${this.url}/${this._cardUrl}/likes/${cardId}`, {
+            method: 'PUT',
+            headers: this.headers,
+        })
+            .then(this._checkResponse)
+    }
+    deleteLikeCard(cardId){
+        return fetch(`${this.url}/${this._cardUrl}/likes/${cardId}`, {
+            method: 'DELETE',
+            headers: this.headers,
+        })
+            .then(this._checkResponse)
+    }
     updateTask(object, url) {
         return fetch(`${this.url}/${url}`, {
             method: 'PATCH',

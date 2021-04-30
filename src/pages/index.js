@@ -31,7 +31,7 @@ const editPopup = new PopupWithForm(".popup_type_edit",
             .then((userData) => {
                 userInfo.setUserInfo(userData.name, userData.about, userData.avatar)
                 editPopup.close();
-                valid1.disableSubmitButton()
+                formEditValidator.disableSubmitButton()
             })
             .catch(err => console.log('Ошибка. Запрос не выполнен: ', err))
             .finally(() => {
@@ -42,6 +42,7 @@ const editPopup = new PopupWithForm(".popup_type_edit",
 
 openButton.addEventListener("click", function () {
     editPopup.open();
+    formEditValidator.resetValidation()
     const info = userInfo.getUserInfo()
     nameInput.value = info.name
     professionInput.value = info.profession;
@@ -50,11 +51,11 @@ editPopup.setEventListeners()
 
 let userId;
 Promise.all([api.getCardTasks(), api.getUserTasks()])
-    .then((res) => {
-        userId = res[1]._id;
-        cardsContainer.renderItems(res[0]);
+    .then(([cards, userInform]) => {
+        userId = userInform._id;
+        cardsContainer.renderItems(cards);
 
-        userInfo.setUserInfo(res[1].name, res[1].about, res[1].avatar)
+        userInfo.setUserInfo(userInform.name, userInform.about, userInform.avatar)
     })
     .catch(err => console.log('Ошибка. Запрос не выполнен: ', err))
 
@@ -65,7 +66,7 @@ const updateAvatar = new PopupWithForm(".popup_type_update-avatar", (input) => {
         .then((data) => {
             userInfo.setUserInfo(data.name, data.about, data.avatar);
             updateAvatar.close();
-            valid3.disableSubmitButton();
+            formUpdateAvatarValidator.disableSubmitButton();
         }, '')
         .catch(err => console.log('Ошибка. Запрос не выполнен: ', err))
         .finally(() => {
@@ -74,6 +75,7 @@ const updateAvatar = new PopupWithForm(".popup_type_update-avatar", (input) => {
 }, formAvatar)
 avatarEditButton.addEventListener("click", () => {
     updateAvatar.open()
+    formUpdateAvatarValidator.resetValidation()
 })
 updateAvatar.setEventListeners()
 
@@ -87,17 +89,39 @@ function handleCardClick(name, link) {
 
 
 
-const popupConfirm = new PopupWithConfirm('.popup_type_confirm', api);
+const popupConfirm = new PopupWithConfirm('.popup_type_confirm', api,
+    (cardId, deleteCardFunc, close) => {
+        api.deleteTask(cardId)
+            .then(() => {
+                deleteCardFunc();
+                close;
+            })
+            .catch(err => console.log('Ошибка удаления карточки. Запрос не выполнен: ', err));
+    });
+
+// index.js
+function handleLikeCard(card) {
+    api.likeCard(card.getId())
+        .then(data => card.setLikesInfo(data))
+        .catch(err => console.log('Ошибка. Запрос не выполнен: ', err));
+}
+
+function handleDeleteLike(card) {
+    api.deleteLikeCard(card.getId())
+        .then(data => card.setLikesInfo(data))
+        .catch(err => console.log('Ошибка. Запрос не выполнен: ', err));
+}
 
 function createCard(data) {
     const cardPrototype = new Card(data, {
         'handleCardClick': handleCardClick,
         'handlePopupOpen': (id, deleteFunc) => {  // Функция открытия попапа 
             popupConfirm.open(id, deleteFunc);
-        }
+        },
+        'handleLikeCard': handleLikeCard,
+        'handleDeleteLike': handleDeleteLike
     }, {
         'cardSelector': ".item-template",
-        'api': api,
         'userId': userId,
     })
     return cardPrototype.renderCard();
@@ -111,7 +135,7 @@ const popupImage = new PopupWithForm(".popup_type_add",
         popupImage.renderLoading(true)
         api.createCardTask(formData)
             .then((card) => {
-                valid2.disableSubmitButton();
+                formAddValidator.disableSubmitButton();
                 cardsContainer.renderItems([card]);
                 popupImage.close()
             })
@@ -122,15 +146,15 @@ const popupImage = new PopupWithForm(".popup_type_add",
     }, formAddElement)
 addButton.addEventListener("click", function () {
     popupImage.open();
-    valid2.resetValidation()
+    formAddValidator.resetValidation()
 });
 popupImage.setEventListeners()
 
 
-const valid1 = new FormValidator(parametersCard, formEditElement)
-const valid2 = new FormValidator(parametersCard, formAddElement)
-const valid3 = new FormValidator(parametersCard, formUpdateAvatar)
+const formEditValidator = new FormValidator(parametersCard, formEditElement);
+const formAddValidator = new FormValidator(parametersCard, formAddElement);
+const formUpdateAvatarValidator = new FormValidator(parametersCard, formUpdateAvatar);
 // Вызовем функцию
-valid2.enableValidation()
-valid3.enableValidation()
-valid1.enableValidation()
+formEditValidator.enableValidation();
+formAddValidator.enableValidation();
+formUpdateAvatarValidator.enableValidation();
