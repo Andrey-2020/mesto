@@ -32,25 +32,22 @@ export default class Card {
 
     return cardElement;
   }
-
-  _setEventListeners() {
-    if (this._ownerId !== this._userId) {
-      this._element.querySelector(".place__delete").classList.add("place__delete-none");
+  _handleClickLike() {
+    if (!this.islikedActive()) {
+      this._handleLikeCard(this);
     } else {
-      const deleteCard = this._element.querySelector(".place__delete");
-      deleteCard.addEventListener('click', () => {
-        this._handlePopupOpen(this._cardId, () => {
-          this._handleDeleteCardButton();
-        });
-      });
+      this._handleDeleteLike(this);
     }
-    this._element.querySelector(".place__like").addEventListener("click", () => {
-      if (!this._element.querySelector(".place__like").classList.contains("place__like_active")) {
-        this._handleLikeCard(this);
-      } else {
-        this._handleDeleteLike(this);
-      }
+  }
+  _handleClickDeleteButton() {
+    this._handlePopupOpen(this._cardId, () => {
+      this._handleDeleteCardButton()
     });
+  }
+  _setEventListeners() {
+    const deleteCard = this._element.querySelector(".place__delete");
+    deleteCard.addEventListener('click', () => this._handleClickDeleteButton());
+    this._element.querySelector(".place__like").addEventListener("click", () => this._handleClickLike());
     this._element.querySelector(".place__image").addEventListener('click', () => {
       this._handleCardClick(this._name, this._src);
     });
@@ -65,8 +62,11 @@ export default class Card {
   renderCard() {
     this._element = this._getTemplate();
     this._updateLikes();
+    if (this._ownerId !== this._userId) {
+      this._element.querySelector(".place__delete").classList.add("place__delete-none");
+    }
     this._setEventListeners();
-
+    this._element.querySelector(".place__title").textContent = this._name;
     this._element.querySelector(".place__title").textContent = this._name;
     this._element.querySelector(".place__image").setAttribute("src", this._src);
     this._element.querySelector(".place__image").setAttribute("alt", this._name);;

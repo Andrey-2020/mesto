@@ -1,10 +1,9 @@
 import Popup from './Popup.js';
 export default class PopupWithConfirm extends Popup {
-    constructor(popupSelector, api, handleDeleteCard) {
+    constructor(popupSelector, handleDeleteCard) {
         super(popupSelector);
         this._cardId = undefined;
         this._deleteCardFunc = undefined;
-        this._api = api;
         this._submitButton = this._popupElement.querySelector('.form__button_type_confirm');
         this._handleDeleteElement = handleDeleteCard;
     }
@@ -18,7 +17,7 @@ export default class PopupWithConfirm extends Popup {
     setEventListeners() {
         this._submitButton.addEventListener('click', (evt) => {
             evt.preventDefault();
-            this._handleDeleteElement(this._cardId, this._deleteCardFunc, super.close()); // сначала слушатели стоят на undefined но при открытии
+            this._handleDeleteElement(this._cardId, this._deleteCardFunc); // сначала слушатели стоят на undefined но при открытии
         });                                                               //попапа они заменяются на ид и функцию закрытия
 
         super.setEventListeners();

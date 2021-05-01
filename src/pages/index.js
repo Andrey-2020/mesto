@@ -89,12 +89,12 @@ function handleCardClick(name, link) {
 
 
 
-const popupConfirm = new PopupWithConfirm('.popup_type_confirm', api,
-    (cardId, deleteCardFunc, close) => {
+const popupConfirm = new PopupWithConfirm('.popup_type_confirm',
+    (cardId, deleteCardFunc) => {
         api.deleteTask(cardId)
             .then(() => {
                 deleteCardFunc();
-                close;
+                popupConfirm.close();
             })
             .catch(err => console.log('Ошибка удаления карточки. Запрос не выполнен: ', err));
     });
